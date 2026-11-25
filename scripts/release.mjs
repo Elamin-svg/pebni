@@ -80,14 +80,10 @@ run("hutch run build", DESKTOP, releaseEnv);
 if (!skipE2e) run("node scripts/test-e2e.mjs", DESKTOP);
 run("npm run build", path.join(ROOT, "apps", "web"));
 
-// 4. Copy Pebni-Setup.exe directly into artifacts/ so direct .exe download & auto-updater files ship together.
-const setupSrc = path.join(DESKTOP, "build", "stable-win-x64", "Pebni-Setup.exe");
-const setupDst = path.join(ARTIFACTS, "Pebni-Setup.exe");
-if (fs.existsSync(setupSrc)) {
-	fs.mkdirSync(ARTIFACTS, { recursive: true });
-	fs.copyFileSync(setupSrc, setupDst);
-	console.log(`Staged ${path.relative(ROOT, setupDst)}`);
-}
+// 4. List Electrobun's release artifacts (win-x64-Pebni-Setup.zip bundles Pebni-Setup.exe + .installer/).
+// Never ship a standalone Pebni-Setup.exe without its .installer folder.
+const staleStandaloneExe = path.join(ARTIFACTS, "Pebni-Setup.exe");
+if (fs.existsSync(staleStandaloneExe)) fs.unlinkSync(staleStandaloneExe);
 
 const files = fs.existsSync(ARTIFACTS)
 	? fs.readdirSync(ARTIFACTS).map((f) => path.join(ARTIFACTS, f)).filter((p) => fs.statSync(p).isFile())

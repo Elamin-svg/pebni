@@ -50,11 +50,7 @@ jobs:
         shell: pwsh
         env:
           PEBNI_RELEASE_BASE_URL: https://github.com/${{ github.repository }}/releases/latest/download
-        run: |
-          hutch run build
-          if (Test-Path "build\stable-win-x64\Pebni-Setup.exe") {
-            Copy-Item "build\stable-win-x64\Pebni-Setup.exe" "artifacts\Pebni-Setup.exe" -Force
-          }
+        run: hutch run build
 
       - name: Run headless browser E2E suite
         working-directory: apps/desktop
@@ -69,7 +65,6 @@ jobs:
           generate_release_notes: true
           make_latest: true
           files: |
-            apps/desktop/artifacts/Pebni-Setup.exe
             apps/desktop/artifacts/win-x64-Pebni-Setup.zip
             apps/desktop/artifacts/stable-win-x64-Pebni.tar.zst
             apps/desktop/artifacts/stable-win-x64-update.json

@@ -16,7 +16,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 $apiUrl = "https://api.github.com/repos/$Repo/releases/latest"
-$directExeUrl = "https://github.com/$Repo/releases/latest/download/Pebni-Setup.exe"
+$directZipUrl = "https://github.com/$Repo/releases/latest/download/win-x64-Pebni-Setup.zip"
 $manifestUrl = "https://github.com/$Repo/releases/latest/download/stable-win-x64-update.json"
 $headers = @{
 	"Accept"     = "application/vnd.github+json"
@@ -42,22 +42,22 @@ function Get-InstalledVersion {
 Write-Host "Checking latest Pebni release from $Repo..." -ForegroundColor Cyan
 
 $latestVersion = $null
-$downloadUrl = $directExeUrl
-$assetName = "Pebni-Setup.exe"
+$downloadUrl = $directZipUrl
+$assetName = "win-x64-Pebni-Setup.zip"
 
 try {
 	$release = Invoke-RestMethod -Uri $apiUrl -Headers $headers -TimeoutSec 20
 	if ($release.tag_name) {
 		$latestVersion = ($release.tag_name -replace '^v', '')
 	}
-	$exeAsset = $release.assets | Where-Object { $_.name -match '^Pebni-Setup\.exe$' -or $_.name -match '\.exe$' } | Select-Object -First 1
 	$zipAsset = $release.assets | Where-Object { $_.name -match 'win-x64.*Pebni.*\.zip$' } | Select-Object -First 1
-	if ($exeAsset) {
-		$downloadUrl = $exeAsset.browser_download_url
-		$assetName = $exeAsset.name
-	} elseif ($zipAsset) {
+	$exeAsset = $release.assets | Where-Object { $_.name -match '^Pebni-Setup\.exe$' -or $_.name -match '\.exe$' } | Select-Object -First 1
+	if ($zipAsset) {
 		$downloadUrl = $zipAsset.browser_download_url
 		$assetName = $zipAsset.name
+	} elseif ($exeAsset) {
+		$downloadUrl = $exeAsset.browser_download_url
+		$assetName = $exeAsset.name
 	}
 } catch {
 	try {
@@ -117,7 +117,7 @@ try {
 	}
 
 	Write-Host "Launching installer ($installerPath)..." -ForegroundColor Green
-	Start-Process -FilePath $installerPath -Wait
+	Start-Process -FilePath $installerPath -WorkingDirectory (Split-Path -Parent $installerPath) -Wait
 	Write-Host "Pebni update complete." -ForegroundColor Green
 } finally {
 	Start-Sleep -Milliseconds 500

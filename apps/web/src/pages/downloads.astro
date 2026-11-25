@@ -4,7 +4,7 @@ import "../styles/pebni.css";
 // Repository slug: update via `node scripts/release.mjs <ver> --repo owner/repo` when publishing.
 const GITHUB_REPO = "Elamin-svg/pebni";
 const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;
-const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/Pebni-Setup.exe`;
+const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/win-x64-Pebni-Setup.zip`;
 const RELEASES_URL = `${GITHUB_URL}/releases/latest`;
 ---
 
@@ -81,7 +81,7 @@ const RELEASES_URL = `${GITHUB_URL}/releases/latest`;
 						</figure>
 						<div data-load style="--d:340ms">
 							<h2>Windows <span class="download-row-tag" data-win-version>Windows 10 &amp; 11</span></h2>
-							<p>Native Electrobun desktop installer with automatic background updates, system tray timer, fullscreen breaks, and offline audio.</p>
+							<p>Official Electrobun desktop installer (.zip — unzip and run Pebni-Setup.exe) with automatic background updates, system tray timer, fullscreen breaks, and offline audio.</p>
 						</div>
 						<a
 							class="btn btn-install"
@@ -163,9 +163,10 @@ const RELEASES_URL = `${GITHUB_URL}/releases/latest`;
 					.then((r) => (r.ok ? r.json() : null))
 					.then((rel) => {
 						if (!rel || !Array.isArray(rel.assets)) return;
-						const exe = rel.assets.find((a: { name?: string }) => /\.exe$/i.test(a.name || ""));
+						// Prefer Electrobun's complete Setup zip (contains Pebni-Setup.exe + .installer/ payload).
 						const zip = rel.assets.find((a: { name?: string }) => /win-x64.*\.zip$/i.test(a.name || ""));
-						const asset = exe || zip;
+						const exe = rel.assets.find((a: { name?: string }) => /\.exe$/i.test(a.name || ""));
+						const asset = zip || exe;
 						if (asset?.browser_download_url) winBtn.href = asset.browser_download_url;
 						else if (winBtn.dataset.fallback) winBtn.href = winBtn.dataset.fallback;
 						if (winTag && rel.tag_name) {
