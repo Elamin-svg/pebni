@@ -1,5 +1,5 @@
 <p align="center">
-  <img src=".github/assets/pebni-cover.png" alt="Pebni: rest your eyes while you code. A calm fullscreen cabin window covers your screen on schedule." width="100%" />
+  <img src=".github/assets/pebni-cover.png" alt="Pebni: rest your eyes while you code. The Pebni timer counts down to the next eye break while Pip codes in a cozy cabin, next to a 20-second fullscreen break with Hide Skip on." width="100%" />
 </p>
 
 <h1 align="center">Pebni</h1>
@@ -27,10 +27,6 @@ Corner popups are easy to click away. By 6 p.m. your eyes are dry and simple bug
 
 And yes, it comes with a cute mascot. Pip rests with you on every break.
 
-<p align="center">
-  <img src=".github/assets/slide-hook.png" alt="Your PR can wait 20 seconds. Pebni fills every screen, waits until you stop typing, waits until your call ends, and plays stories, breathing or quiet." width="100%" />
-</p>
-
 ## Why developers use it
 
 - **Breaks you can't swipe away.** The break fills every monitor. Turn on Hide Skip and short breaks run until they end.
@@ -40,14 +36,6 @@ And yes, it comes with a cute mascot. Pip rests with you on every break.
 - **A break that calms you down.** Guided breathing (4 s in, 6 s out), short stories, nature sounds, or just a soft chime.
 - **Out of your way.** Starts in the tray at login, can mute other apps' audio during breaks, and lets you close long breaks with `Esc` while the timer keeps running.
 - **Private by default.** No account and no telemetry. Settings and your 7-day break history stay on your machine.
-
-<table>
-  <tr>
-    <td width="33%"><img src=".github/assets/slide-skipped-breaks.png" alt="Corner popups versus Pebni's fullscreen break" /></td>
-    <td width="33%"><img src=".github/assets/slide-breaks-that-wait.png" alt="Breaks that wait until your call ends" /></td>
-    <td width="33%"><img src=".github/assets/slide-calm-breaks.png" alt="Break screens for silence, guided breathing, short stories and nature sounds" /></td>
-  </tr>
-</table>
 
 ## Install
 
