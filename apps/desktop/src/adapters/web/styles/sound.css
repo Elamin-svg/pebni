@@ -1,0 +1,171 @@
+/* Sound during breaks: spacious 2x2 grid in "Work rhythm" and the player on the break screen. */
+
+/* --- The choice: four selectable cards with generous vertical breathing room --- */
+.sound-choice {
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
+	padding: 0;
+	border: 0;
+	min-width: 0;
+}
+.sound-choice legend {
+	padding: 0;
+	font-size: 0.9375rem;
+	font-weight: 500;
+}
+.sound-grid {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.875rem;
+}
+@media (max-width: 440px) {
+	.sound-grid {
+		grid-template-columns: 1fr;
+	}
+}
+.sound-option {
+	display: flex;
+	align-items: flex-start;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.9rem 1rem;
+	border-radius: 0.875rem;
+	border: 1px solid var(--color-base-300);
+	background: var(--color-base-100);
+	cursor: pointer;
+	transition-property: background-color, border-color;
+	transition-duration: 150ms;
+}
+.sound-option:hover {
+	border-color: color-mix(in oklab, var(--color-base-content) 28%, transparent);
+}
+.sound-option:has(:checked) {
+	border-color: var(--color-primary);
+	background: color-mix(in oklab, var(--color-primary) 10%, var(--color-base-100));
+}
+.sound-desc {
+	display: block;
+	margin-top: 0.2rem;
+	font-size: 0.75rem;
+	line-height: 1.4;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+}
+
+/* Conditional short/long break scope row under "Mute background audio during breaks" */
+.mute-scope {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.75rem 1.25rem;
+	margin-top: -0.5rem;
+	padding: 0.75rem 1rem;
+	border-radius: 0.875rem;
+	background: var(--color-base-100);
+	border: 1px solid var(--color-base-300);
+}
+.mute-scope[hidden] {
+	display: none;
+}
+.mute-scope-option {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--color-base-content);
+	cursor: pointer;
+}
+
+/* --- The player on the break screen --- */
+.sound {
+	display: flex;
+	align-items: center;
+	gap: 1.25rem;
+	max-width: 32rem;
+	margin: 1.5rem auto 0;
+	text-align: start;
+}
+.sound[hidden] { display: none; }
+
+.sound-control {
+	position: relative;
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 5rem;
+	height: 5rem;
+}
+.sound-toggle {
+	position: relative;
+	z-index: 1;
+	display: grid;
+	place-items: center;
+	width: 3.5rem;
+	height: 3.5rem;
+	border-radius: 9999px;
+	border: 1px solid rgb(255 255 255 / 0.45);
+	background: transparent;
+	color: #f4f1ea;
+	cursor: pointer;
+	transition-property: background-color, color, scale;
+	transition-duration: 150ms;
+}
+.sound-toggle.playing {
+	background: #f4f1ea;
+	color: #1f2a24;
+}
+.sound-toggle:active { scale: 0.96; }
+.sound-toggle svg { width: 1.5rem; height: 1.5rem; fill: currentColor; }
+.sound-toggle .icon-pause,
+.sound-toggle.playing .icon-play { display: none; }
+.sound-toggle.playing .icon-pause { display: block; }
+.sound-toggle:focus-visible { outline: 2px solid #f4f1ea; outline-offset: 3px; }
+
+.sound-title { font-size: 1.125rem; color: rgb(255 255 255 / 0.92); text-wrap: pretty; }
+.sound-detail { font-size: 0.875rem; color: rgb(255 255 255 / 0.68); }
+
+/* --- Breathing: a ring that grows for four seconds and shrinks for six, and the cue --- */
+.breath-ring {
+	position: absolute;
+	inset: 0.75rem;
+	border-radius: 9999px;
+	background: rgb(244 241 234 / 0.14);
+	opacity: 0;
+	pointer-events: none;
+}
+.breath-cue {
+	display: none;
+	position: relative;
+	height: 1.5rem;
+	margin-top: 0.25rem;
+	font-size: 1rem;
+	color: #f4f1ea;
+}
+.breath-cue span { position: absolute; inset-inline-start: 0; opacity: 0; }
+.sound.breathing .breath-cue { display: block; }
+.sound.breathing .breath-ring { opacity: 1; }
+.sound.breathing.breath-run .breath-ring { animation: breath-ring 10s ease-in-out both; }
+.sound.breathing.breath-run .cue-in { animation: cue-in 10s linear both; }
+.sound.breathing.breath-run .cue-out { animation: cue-out 10s linear both; }
+.sound.paused .breath-ring,
+.sound.paused .breath-cue span { animation-play-state: paused; }
+
+@keyframes breath-ring {
+	0% { transform: scale(1); }
+	40% { transform: scale(1.45); }
+	100% { transform: scale(1); }
+}
+@keyframes cue-in {
+	0%, 38% { opacity: 1; }
+	42%, 100% { opacity: 0; }
+}
+@keyframes cue-out {
+	0%, 38% { opacity: 0; }
+	42%, 96% { opacity: 1; }
+	100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.sound.breathing.breath-run .breath-ring { animation: none; }
+}

@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en" data-theme="pebble-night">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Pebni</title>
+	</head>
+	<body>
+		<!-- Main window: calm relaxation break companion for developers -->
+		<main id="timer-view" class="app">
+			<header class="app-header">
+				<div class="brand">
+					<img id="brand-mark" class="brand-mark" alt="" aria-hidden="true" />
+					<div>
+						<h1 class="brand-title">Pebni</h1>
+						<p class="brand-sub">Relaxation breaks for developers</p>
+					</div>
+				</div>
+				<span id="status-pill" class="status-pill" data-state="ready">
+					<span class="status-dot" aria-hidden="true"></span>
+					<span id="status" role="status">Ready</span>
+				</span>
+			</header>
+
+			<div class="workspace">
+				<!-- Left column on wide desktop; "Timer" tab on compact windows -->
+				<div id="panel-timer" class="timer-pane" role="tabpanel" data-panel="timer" aria-labelledby="tab-timer">
+					<!-- A little valley at dusk. The moon rises as your break gets closer. -->
+					<section id="scene" aria-label="Time left" class="scene">
+						<svg class="scene-art" viewBox="0 0 400 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+							<rect class="v-sky" width="400" height="320" fill="#c9d4cf" />
+							<g class="stars" fill="#ffffff">
+								<circle cx="300" cy="34" r="2.2" />
+								<circle cx="352" cy="22" r="1.6" />
+								<circle cx="378" cy="64" r="2" />
+								<circle cx="326" cy="84" r="1.4" />
+								<circle cx="236" cy="20" r="1.6" />
+								<circle cx="150" cy="16" r="1.4" />
+								<circle cx="60" cy="24" r="1.8" />
+							</g>
+							<g class="moon">
+								<circle class="v-moon" cx="350" cy="120" r="18" fill="#f4f1ea" />
+								<circle class="v-moon-cut" cx="358" cy="114" r="15" />
+							</g>
+							<path d="M0 205 L60 150 L105 182 L170 118 L240 188 L290 160 L340 196 L400 150 L400 320 L0 320 Z" class="v-far" fill="#a8b8b1" />
+							<path d="M0 230 Q90 190 180 222 T400 212 L400 320 L0 320 Z" class="v-hills" fill="#8ea398" />
+							<g class="v-pines" fill="#4e6a5c">
+								<path d="M36 250 L52 190 L68 250 Z" />
+								<path d="M62 252 L74 210 L86 252 Z" />
+								<path d="M120 246 L134 200 L148 246 Z" />
+								<path d="M352 246 L368 188 L384 246 Z" />
+								<path d="M330 248 L340 214 L350 248 Z" />
+							</g>
+							<path d="M0 262 Q120 236 230 256 T400 248 L400 320 L0 320 Z" class="v-meadow" fill="#6f8a79" />
+							<g class="v-flowers" fill="#ece8df">
+								<circle cx="60" cy="286" r="2" />
+								<circle cx="74" cy="294" r="1.6" />
+								<circle cx="150" cy="300" r="2" />
+								<circle cx="214" cy="284" r="1.6" />
+								<circle cx="250" cy="304" r="2" />
+							</g>
+						</svg>
+
+						<div class="scene-text">
+							<p id="clock-note" class="clock-note">Eye break in</p>
+							<p id="clock" class="clock">20:00</p>
+						</div>
+						<img id="scene-photo" class="scene-photo" alt="" hidden />
+						<div class="pip-slot" id="pip-timer"></div>
+						<p id="pip-quote" class="pip-bubble"></p>
+					</section>
+
+					<!-- Where you are in the cycle, while planned long breaks are on -->
+					<p id="cycle" class="cycle" hidden>
+						<span id="cycle-dots" class="cycle-dots" aria-hidden="true"></span>
+						<span id="cycle-text">Round 1 of 4</span>
+					</p>
+
+					<!-- Primary action + two quiet secondary actions in one spacious row -->
+					<div class="actions">
+						<button id="start" type="button" class="btn btn-primary btn-lg rounded-full action-primary">Start coding</button>
+						<button id="break-now" type="button" class="btn btn-lg rounded-full action-secondary">Take a break</button>
+						<button id="reset" type="button" class="btn btn-lg rounded-full action-reset">Reset</button>
+					</div>
+
+					<!-- Quiet Activity card: Today & This week worked/breaks strip + 7-day bar chart -->
+					<section class="summary-card" aria-label="Activity summary">
+						<div class="summary-top">
+							<div class="summary-heading">
+								<img id="state-mascot" class="state-mascot" alt="" aria-hidden="true" />
+								<span class="summary-title">Activity</span>
+							</div>
+							<button type="button" id="rhythm-chip" class="rhythm-chip" data-open-tab="rhythm">20-20-20 · Eye rest</button>
+						</div>
+
+						<div class="activity-strip" aria-label="Today and this week totals">
+							<div class="activity-col">
+								<span class="activity-label">Today</span>
+								<p class="activity-work">
+									<span id="screen-time" class="activity-value">0m</span>
+									<span class="activity-unit">worked</span>
+								</p>
+								<p class="activity-breaks">
+									<span id="stats-count" class="activity-breaks-count">0 breaks</span>
+									<span class="activity-dot" aria-hidden="true">·</span>
+									<span id="break-time-today" class="activity-breaks-mins">0 min</span>
+								</p>
+							</div>
+							<div class="activity-col">
+								<span class="activity-label">This week</span>
+								<p class="activity-work">
+									<span id="week-work-time" class="activity-value">0m</span>
+									<span class="activity-unit">worked</span>
+								</p>
+								<p class="activity-breaks">
+									<span id="week-breaks-count" class="activity-breaks-count">0 breaks</span>
+									<span class="activity-dot" aria-hidden="true">·</span>
+									<span id="week-break-time" class="activity-breaks-mins">0 min</span>
+								</p>
+							</div>
+						</div>
+
+						<p id="idle-reset-note" class="idle-note" hidden>Stepped away. Started a fresh round when you came back.</p>
+						<div id="timer-dnd-banner" class="dnd-banner" hidden>
+							<span id="timer-dnd-text">Do Not Disturb is on</span>
+							<button id="timer-dnd-off" type="button" class="dnd-banner-off">Turn off</button>
+						</div>
+
+						<div class="week-block">
+							<div class="week-head">
+								<span class="week-title">Breaks</span>
+								<span class="week-meta">Last 7 days</span>
+							</div>
+							<div id="week-strip" class="week-strip"></div>
+						</div>
+					</section>
+				</div>
+
+				<!-- Right column on wide desktop; tabs switch views cleanly without long scrolling -->
+				<div class="settings-pane">
+					<nav class="app-tabs" role="tablist" aria-label="Sections">
+						<button id="tab-timer" type="button" role="tab" class="app-tab tab-timer-only" data-tab="timer" aria-selected="true" aria-controls="panel-timer">Timer</button>
+						<button id="tab-rhythm" type="button" role="tab" class="app-tab" data-tab="rhythm" aria-selected="false" aria-controls="rule">Breaks</button>
+						<button id="tab-sound" type="button" role="tab" class="app-tab" data-tab="sound" aria-selected="false" aria-controls="panel-sound">Sound</button>
+						<button id="tab-focus" type="button" role="tab" class="app-tab" data-tab="focus" aria-selected="false" aria-controls="panel-focus">Focus</button>
+						<button id="tab-app" type="button" role="tab" class="app-tab" data-tab="app" aria-selected="false" aria-controls="panel-app">App</button>
+					</nav>
+
+					<!-- Breaks: Timing (presets, lengths, long breaks, away reset, flow, snoozes) & Break screen (Hide Skip, prompt) -->
+					<form id="rule" class="panel-card rule" role="tabpanel" data-panel="rhythm" aria-labelledby="rule-title" hidden>
+						<div class="panel-head">
+							<h2 id="rule-title" class="panel-title">Breaks &amp; timing</h2>
+							<p class="panel-desc">Choose your work-rest cadence and how the break screen behaves.</p>
+						</div>
+
+						<div class="presets" role="group" aria-label="Presets">
+							<button type="button" class="preset" data-preset="twenty" aria-pressed="false">
+								<span class="preset-name">20-20-20</span>
+								<span class="preset-detail">20 min work, 20 s rest</span>
+							</button>
+							<button type="button" class="preset" data-preset="pomodoro" aria-pressed="false">
+								<span class="preset-name">Pomodoro</span>
+								<span class="preset-detail">25 min work, 5 min rest</span>
+							</button>
+						</div>
+
+						<div class="timing-strip">
+							<label class="timing-field" for="work-min">
+								<span class="timing-label">Code</span>
+								<span class="timing-inputs">
+									<input id="work-min" class="num" type="number" inputmode="numeric" min="1" max="180" value="20" aria-label="Coding time, in minutes" />
+									<span class="timing-unit">min</span>
+								</span>
+							</label>
+							<div class="timing-field">
+								<label class="timing-label" for="rest-len">Break</label>
+								<span class="timing-inputs">
+									<input id="rest-len" class="num" type="number" inputmode="numeric" min="5" max="1800" value="20" aria-label="Break length" />
+									<select id="rest-unit" class="unit" aria-label="Break length unit">
+										<option value="sec">sec</option>
+										<option value="min">min</option>
+									</select>
+								</span>
+							</div>
+						</div>
+
+						<div class="setting-group">
+							<h3 class="group-label">Timing</h3>
+
+							<label class="setting">
+								<span>
+									<span class="setting-name">Schedule long breaks</span>
+									<span class="setting-desc">A longer breather after a few rounds. You can close long break windows anytime.</span>
+								</span>
+								<input id="long-on" type="checkbox" class="toggle toggle-primary" />
+							</label>
+							<p id="long-line" class="sentence setting-subrow">
+								After
+								<input id="long-after" class="num" type="number" inputmode="numeric" min="1" max="8" value="3" aria-label="Short breaks before a long break" />
+								short breaks, relax for
+								<input id="long-min" class="num" type="number" inputmode="numeric" min="1" max="60" value="30" aria-label="Long break, in minutes" />
+								min.
+							</p>
+							<p id="long-off-note" class="hint">While off, Pip offers a 5-minute coffee break after three rounds in a row.</p>
+
+							<label class="setting">
+								<span>
+									<span class="setting-name">Reset round when I step away</span>
+									<span id="idle-reset-desc" class="setting-desc">Away for 3 min counts as a natural break and starts a fresh round when you return.</span>
+								</span>
+								<input id="idle-reset" type="checkbox" class="toggle toggle-primary" checked />
+							</label>
+							<label id="idle-reset-line" class="setting-inline setting-subrow" for="idle-reset-min">
+								<span class="setting-desc">Count away as a natural break after</span>
+								<span class="timing-inputs">
+									<input id="idle-reset-min" class="num" type="number" inputmode="numeric" min="1" max="15" value="3" aria-label="Minutes away before resetting round" />
+									<span class="timing-unit">min</span>
+								</span>
+							</label>
+
+							<label class="setting">
+								<span>
+									<span class="setting-name">Don't interrupt deep flow</span>
+									<span class="setting-desc">After 10 min of steady typing, breaks wait for a natural pause (up to 5 min).</span>
+								</span>
+								<input id="flow-guard" type="checkbox" class="toggle toggle-primary" />
+							</label>
+
+							<label class="setting" for="max-snoozes">
+								<span>
+									<span class="setting-name">Snoozes per round</span>
+									<span class="setting-desc">Each snooze delays a due break by 2 min.</span>
+								</span>
+								<span class="timing-inputs">
+									<input id="max-snoozes" class="num" type="number" inputmode="numeric" min="0" max="3" value="2" aria-label="Snoozes allowed per round" />
+								</span>
+							</label>
+						</div>
+
+						<div class="setting-group">
+							<h3 class="group-label">Break screen</h3>
+
+							<label class="setting">
+								<span>
+									<span class="setting-name">Hide Skip on short breaks</span>
+									<span class="setting-desc">Lets short resets run until done. Long break windows can still be closed freely.</span>
+								</span>
+								<input id="strict" type="checkbox" class="toggle toggle-primary" />
+							</label>
+
+							<div class="prompt-row">
+								<span id="focus-label" class="setting-name prompt-heading">Break prompt</span>
+								<div class="seg-track seg-four" role="radiogroup" aria-labelledby="focus-label">
+									<input class="seg-item" type="radio" name="focus" value="eyes" aria-label="Eye rest" checked />
+									<input class="seg-item" type="radio" name="focus" value="away" aria-label="Step away" />
+									<input class="seg-item" type="radio" name="focus" value="stretch" aria-label="Stretch" />
+									<input class="seg-item" type="radio" name="focus" value="custom" aria-label="Your text" />
+								</div>
+							</div>
+							<p id="focus-note" class="hint">Gentle 20-20-20 rotation: eye rest, posture and light stretches between coding blocks.</p>
+
+							<label id="feet-line" class="setting-inline setting-subrow" for="feet">
+								<span class="setting-desc">In eye breaks, look away at least</span>
+								<span class="timing-inputs">
+									<input id="feet" class="num" type="number" inputmode="numeric" min="5" max="100" value="20" aria-label="Distance to look, in feet" />
+									<span class="timing-unit">ft</span>
+								</span>
+							</label>
+
+							<div id="custom-prompt" class="custom-prompt" hidden>
+								<div class="prompt-presets-wrap">
+									<span class="prompt-presets-label">Starter texts</span>
+									<div id="prompt-presets" class="prompt-presets"></div>
+								</div>
+								<div class="custom-fields">
+									<label class="custom-field">
+										<span class="custom-label">Headline</span>
+										<input id="custom-title" type="text" maxlength="60" class="input input-sm bg-base-100 border-base-300 w-full" placeholder="e.g. Step away from the keyboard" />
+									</label>
+									<label class="custom-field">
+										<span class="custom-label">Message</span>
+										<input id="custom-note" type="text" maxlength="160" class="input input-sm bg-base-100 border-base-300 w-full" placeholder="e.g. Look 20 feet away, drop your shoulders and breathe." />
+									</label>
+								</div>
+							</div>
+						</div>
+					</form>
+
+					<!-- Sound: chime, ambient break audio, and background muting -->
+					<section id="panel-sound" class="panel-card settings" role="tabpanel" data-panel="sound" aria-labelledby="sound-panel-title" hidden>
+						<div class="panel-head">
+							<h2 id="sound-panel-title" class="panel-title">Sound &amp; atmosphere</h2>
+							<p class="panel-desc">Gentle chimes, offline break audio, and automatic muting for other apps.</p>
+						</div>
+
+						<div class="setting-group">
+							<div class="setting mb-4">
+								<label for="chime-on" class="cursor-pointer">
+									<span class="setting-name">Gentle start &amp; end chime</span>
+									<span class="setting-desc">Soft bell when a break starts and finishes, so you can look away or close the window.</span>
+								</label>
+								<div class="chime-controls">
+									<button id="chime-test" type="button" class="quiet-inline">Preview</button>
+									<input id="chime-on" type="checkbox" class="toggle toggle-primary" checked />
+								</div>
+							</div>
+
+							<fieldset class="sound-choice mb-6">
+								<legend class="mb-3">Ambient break audio</legend>
+								<div class="sound-grid mb-2">
+									<label class="sound-option">
+										<span><span class="setting-name">Silence</span><span class="sound-desc">Just the quiet chime.</span></span>
+										<input type="radio" name="audio" value="off" class="radio radio-primary radio-sm" checked />
+									</label>
+									<label class="sound-option">
+										<span><span class="setting-name">Guided breathing</span><span class="sound-desc">Calm voice and breathing cue.</span></span>
+										<input type="radio" name="audio" value="meditation" class="radio radio-primary radio-sm" />
+									</label>
+									<label class="sound-option">
+										<span><span class="setting-name">Short story</span><span class="sound-desc">Classic stories that fit your break.</span></span>
+										<input type="radio" name="audio" value="book" class="radio radio-primary radio-sm" />
+									</label>
+									<label class="sound-option">
+										<span><span class="setting-name">Nature sounds</span><span class="sound-desc">Rain, fire or birds for the scene.</span></span>
+										<input type="radio" name="audio" value="nature" class="radio radio-primary radio-sm" />
+									</label>
+								</div>
+							</fieldset>
+						</div>
+
+						<div class="setting-group">
+							<h3 class="group-label">Background muting</h3>
+
+							<label class="setting mb-4">
+								<span>
+									<span class="setting-name">Disable break audio in background</span>
+									<span class="setting-desc">Pauses ambient break audio when you close or minimize the break window (the gentle end chime still rings).</span>
+								</span>
+								<input id="mute-in-background" type="checkbox" class="toggle toggle-primary" />
+							</label>
+
+							<label class="setting">
+								<span>
+									<span class="setting-name">Mute background audio during breaks</span>
+									<span class="setting-desc">Silences other apps (like Spotify or YouTube) while a break screen is open, then restores them automatically.</span>
+								</span>
+								<input id="mute-other-audio" type="checkbox" class="toggle toggle-primary" />
+							</label>
+							<div id="mute-other-scope" class="mute-scope" role="group" aria-label="Apply background muting to" hidden>
+								<label class="mute-scope-option">
+									<input id="mute-other-short" type="checkbox" class="checkbox checkbox-primary checkbox-sm" checked />
+									<span>Short breaks</span>
+								</label>
+								<label class="mute-scope-option">
+									<input id="mute-other-long" type="checkbox" class="checkbox checkbox-primary checkbox-sm" checked />
+									<span>Long &amp; coffee breaks</span>
+								</label>
+							</div>
+						</div>
+					</section>
+
+					<!-- Pause when busy: Do Not Disturb and apps that pause breaks -->
+					<section id="panel-focus" class="panel-card settings" role="tabpanel" data-panel="focus" aria-labelledby="busy-title" hidden>
+						<div class="panel-head">
+							<h2 id="busy-title" class="panel-title">Pause when busy</h2>
+							<p class="panel-desc">Hold breaks during calls, screen-shares, deploys or live demos.</p>
+						</div>
+
+						<div class="setting-group">
+							<div class="setting">
+								<span>
+									<span class="setting-name">Do Not Disturb</span>
+									<span id="dnd-state" class="setting-desc">Off</span>
+								</span>
+								<button id="dnd-off" type="button" class="btn btn-sm rounded-full dnd-choice" hidden>Turn off</button>
+							</div>
+							<p class="hint">
+								Holds every break while the timer keeps running. When it ends, you still get the 30-second notice first.
+							</p>
+							<div id="dnd-choices" class="dnd-choices" role="group" aria-labelledby="dnd-choose">
+								<span id="dnd-choose" class="setting-desc">Turn on for</span>
+								<div class="seg-track seg-buttons">
+									<button type="button" class="seg-btn" data-dnd="dnd30">30 min</button>
+									<button type="button" class="seg-btn" data-dnd="dnd60">1 hour</button>
+									<button type="button" class="seg-btn" data-dnd="dndOn">Until off</button>
+								</div>
+							</div>
+						</div>
+
+						<div class="setting-group">
+							<h3 class="group-label">Apps that pause breaks</h3>
+							<p class="hint">Breaks wait while any of these apps are open, or while any app is fullscreen.</p>
+							<ul id="focus-apps" class="focus-apps" aria-label="Focus apps"></ul>
+							<form id="focus-add" class="focus-add">
+								<label for="focus-name" class="setting-name">Add a program</label>
+								<div class="flex gap-2">
+									<input id="focus-name" class="input input-sm flex-1 bg-base-100 border-base-300" list="running-apps" placeholder="For example Zoom" autocomplete="off" spellcheck="false" aria-describedby="focus-help" />
+									<button type="submit" class="btn btn-sm rounded-full dnd-choice">Add</button>
+								</div>
+								<datalist id="running-apps"></datalist>
+								<p id="focus-help" class="focus-help" role="status">Start typing to see the programs open right now.</p>
+							</form>
+						</div>
+					</section>
+
+					<!-- App & shortcuts: start at login, global shortcuts and appearance -->
+					<section id="panel-app" class="panel-card settings" role="tabpanel" data-panel="app" aria-labelledby="settings-title" hidden>
+						<div class="panel-head">
+							<h2 id="settings-title" class="panel-title">App & shortcuts</h2>
+							<p class="panel-desc">Startup, global keyboard shortcuts and appearance.</p>
+						</div>
+
+						<div class="setting-group">
+							<label class="setting">
+								<span>
+									<span class="setting-name">Open at login</span>
+									<span class="setting-desc">Starts quietly in the tray and begins timing when you first type.</span>
+								</span>
+								<input id="start-at-login" type="checkbox" class="toggle toggle-primary" />
+							</label>
+						</div>
+
+						<div class="setting-group">
+							<label class="setting">
+								<span class="setting-name">Use keyboard shortcuts</span>
+								<input id="shortcuts-on" type="checkbox" class="toggle toggle-primary" />
+							</label>
+							<ul id="shortcut-list" class="shortcut-list" aria-label="Shortcuts"></ul>
+							<div class="shortcut-foot">
+								<p id="shortcut-hint" class="hint" role="status"></p>
+								<button id="shortcut-restore" type="button" class="quiet-action" hidden>Restore defaults</button>
+							</div>
+						</div>
+
+						<div class="setting-group">
+							<div class="setting">
+								<span id="theme-label" class="setting-name">Appearance</span>
+								<div class="seg-track" role="radiogroup" aria-labelledby="theme-label">
+									<input class="seg-item" type="radio" name="theme" value="dark" aria-label="Dark" checked />
+									<input class="seg-item" type="radio" name="theme" value="light" aria-label="Light" />
+									<input class="seg-item" type="radio" name="theme" value="system" aria-label="System" />
+								</div>
+							</div>
+						</div>
+
+						<div class="setting-group">
+							<div class="setting">
+								<span>
+									<span class="setting-name">Updates</span>
+									<span id="update-status" class="setting-desc" role="status">Installed v0.1.0 · Automatic updates enabled.</span>
+								</span>
+								<button id="update-btn" type="button" class="quiet-inline">Check for updates</button>
+							</div>
+							<p id="usage-line" class="usage-line" title="Memory used by the timer process" hidden></p>
+						</div>
+					</section>
+				</div>
+			</div>
+		</main>
+
+		<!-- Notice: the small corner window 30 s before a break (opened with #notice) -->
+		<section id="notice-view" class="notice" hidden aria-labelledby="notice-title">
+			<div class="pip-slot" id="pip-notice"></div>
+			<div class="notice-body">
+				<p id="notice-title" class="notice-title">Break in 30s</p>
+				<p class="notice-actions">
+					<button id="snooze" type="button" class="notice-snooze">Snooze 2 min</button>
+					<span id="notice-note" class="notice-note">2 left this round</span>
+				</p>
+			</div>
+			<button id="notice-close" type="button" class="notice-close" aria-label="Hide this notice" title="Hide this notice. The break still comes.">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" /></svg>
+			</button>
+			<span class="notice-timer" aria-hidden="true"></span>
+			<p id="notice-announce" class="sr-only" role="status"></p>
+		</section>
+
+		<!-- Break view: covers the screen; long & coffee breaks are closeable so you can relax freely -->
+		<section id="break-view" class="break" hidden aria-labelledby="break-title">
+			<p id="break-announce" class="sr-only" role="status"></p>
+			<video id="rain" class="break-video" muted loop playsinline aria-hidden="true"></video>
+			<button id="break-close" type="button" class="break-close" hidden aria-label="Close break window, keep timer running" title="Close window (Esc), timer keeps running in the tray">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 7l10 10M17 7L7 17" /></svg>
+			</button>
+			<div class="break-content">
+				<div class="pip-slot pip-resting" id="pip-break"></div>
+				<h1 id="break-title" class="text-4xl font-semibold">Look 20 feet away</h1>
+				<p id="break-clock" class="clock" aria-describedby="break-left">0:20</p>
+				<p id="break-left" class="break-left">left in this break</p>
+				<p id="break-note" class="text-xl max-w-xl text-white/85">Rest your eyes on something far off, like a window or the end of the room.</p>
+				<p id="hide-hint" class="break-hide-hint" hidden>Close this window anytime to watch YouTube, read or grab coffee. The timer keeps running quietly.</p>
+				<div id="coffee-offer" class="coffee-offer" hidden>
+					<img id="coffee-mascot" class="coffee-mascot" alt="" aria-hidden="true" />
+					<p class="font-semibold">Three rounds in a row</p>
+					<p class="text-white/75 text-balance">Pip thinks you have earned a proper breather. How about a coffee break?</p>
+					<div class="flex flex-wrap justify-center gap-2">
+						<button id="coffee-yes" type="button" class="btn btn-sm rounded-full coffee-yes">Take 5 min</button>
+						<button id="coffee-no" type="button" class="btn btn-ghost btn-sm rounded-full">Just the short one</button>
+					</div>
+				</div>
+				<div id="sound" class="sound" hidden>
+					<div class="sound-control">
+						<span class="breath-ring" aria-hidden="true"></span>
+						<button id="sound-toggle" class="sound-toggle" type="button" aria-label="Pause the sound">
+							<svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" /></svg>
+							<svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" /></svg>
+						</button>
+					</div>
+					<div class="sound-text">
+						<p id="sound-title" class="sound-title"></p>
+						<p id="sound-detail" class="sound-detail"></p>
+						<p class="breath-cue" aria-hidden="true"><span class="cue-in">Breathe in</span><span class="cue-out">Breathe out</span></p>
+					</div>
+				</div>
+			</div>
+			<footer class="break-footer">
+				<button id="hide-break" type="button" class="btn btn-sm rounded-full break-hide" hidden>Close window · keep break running</button>
+				<button id="skip" type="button" class="btn btn-sm rounded-full break-skip">Skip break</button>
+				<span id="strict-note" class="strict-note" hidden>Strict breaks are on. This one runs to the end.</span>
+			</footer>
+		</section>
+
+		<script type="module" src="/main.ts"></script>
+	</body>
+</html>

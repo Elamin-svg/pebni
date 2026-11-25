@@ -1,0 +1,27 @@
+{
+	"name": "@pebni/desktop",
+	"version": "0.1.0",
+	"type": "module",
+	"description": "A calm, open-source 20-20-20 relaxation break companion for developers",
+	"license": "MIT",
+	"keywords": [
+		"break-reminder",
+		"20-20-20",
+		"pomodoro",
+		"eye-care",
+		"developers",
+		"electrobun",
+		"desktop-app"
+	],
+	"devDependencies": {
+		"@types/bun": "latest",
+		"concurrently": "^9.2.5",
+		"typescript": "~5.9.3",
+		"vite": "^7.3.7",
+		"tailwindcss": "^4.1.0",
+		"@tailwindcss/vite": "^4.1.0",
+		"daisyui": "^5.0.0",
+		"tailwindcss-motion": "^1.1.1",
+		"@fontsource-variable/bricolage-grotesque": "^5.2.0"
+	}
+}

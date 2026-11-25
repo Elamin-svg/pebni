@@ -1,0 +1,77 @@
+name: Release Desktop App
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to publish (e.g. v1.0.1)"
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    name: Build & Publish Windows Release
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Hutch
+        shell: pwsh
+        run: |
+          irm https://hutch.sh/install.ps1 | iex
+          "$HOME\.hutch\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Install desktop dependencies
+        working-directory: apps/desktop
+        shell: pwsh
+        run: hutch install
+
+      - name: Type check & unit tests
+        working-directory: apps/desktop
+        shell: pwsh
+        run: |
+          hutch pm exec -- tsc --noEmit -p .
+          hutch test src/core
+
+      - name: Build Electrobun stable Windows release
+        working-directory: apps/desktop
+        shell: pwsh
+        env:
+          PEBNI_RELEASE_BASE_URL: https://github.com/${{ github.repository }}/releases/latest/download
+        run: |
+          hutch run build
+          if (Test-Path "build\stable-win-x64\Pebni-Setup.exe") {
+            Copy-Item "build\stable-win-x64\Pebni-Setup.exe" "artifacts\Pebni-Setup.exe" -Force
+          }
+
+      - name: Run headless browser E2E suite
+        working-directory: apps/desktop
+        shell: pwsh
+        run: node scripts/test-e2e.mjs
+
+      - name: Publish GitHub Release with installer + Electrobun updater assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ inputs.tag || github.ref_name }}
+          name: Pebni ${{ inputs.tag || github.ref_name }}
+          generate_release_notes: true
+          make_latest: true
+          files: |
+            apps/desktop/artifacts/Pebni-Setup.exe
+            apps/desktop/artifacts/win-x64-Pebni-Setup.zip
+            apps/desktop/artifacts/stable-win-x64-Pebni.tar.zst
+            apps/desktop/artifacts/stable-win-x64-update.json
+            apps/desktop/artifacts/stable-win-x64-checksum.json
+            apps/desktop/artifacts/stable-win-x64-*.patch

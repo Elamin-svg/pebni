@@ -1,0 +1,724 @@
+/* Navigation tabs, cycle row, single-row action bar, 7-day strip and spacious settings controls.
+   Plain CSS on the daisyUI theme variables, so both themes follow. */
+
+/* --- Navigation tab bar: quiet tonal track with elevated active pill --- */
+.app-tabs {
+	display: grid;
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: 0.25rem;
+	padding: 0.3rem;
+	border-radius: 999px;
+	background: var(--color-base-200);
+	order: -1;
+}
+.app-tab {
+	min-height: 2.5rem;
+	padding: 0.5rem 0.5rem;
+	border-radius: 999px;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+	cursor: pointer;
+	white-space: nowrap;
+	transition: background-color 140ms ease, color 140ms ease;
+}
+@media (max-width: 440px) {
+	.app-tab {
+		padding: 0.5rem 0.25rem;
+		font-size: 0.8125rem;
+	}
+}
+.app-tab:hover {
+	color: var(--color-base-content);
+}
+.app-tab[aria-selected="true"] {
+	background: var(--color-base-300);
+	color: var(--color-base-content);
+	font-weight: 600;
+}
+.app-tab:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+@media (min-width: 960px) {
+	.tab-timer-only {
+		display: none;
+	}
+	.app-tabs {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 0.375rem;
+		order: 0;
+	}
+	.app-tab {
+		padding: 0.5rem 0.875rem;
+	}
+}
+
+/* --- Cycle row: one dot per round, the current one a wider pill (shape, not only colour) --- */
+.cycle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.75rem;
+	margin-top: -0.25rem;
+	font-size: 0.875rem;
+	color: color-mix(in oklab, var(--color-base-content) 75%, transparent);
+	font-variant-numeric: tabular-nums;
+}
+.cycle[hidden] { display: none; }
+.cycle-dots { display: flex; gap: 0.375rem; }
+.cycle-dots span {
+	width: 0.5rem;
+	height: 0.5rem;
+	border-radius: 999px;
+	background: color-mix(in oklab, var(--color-base-content) 30%, transparent);
+	transition: width 300ms ease, background-color 300ms ease;
+}
+.cycle-dots .done { background: color-mix(in oklab, var(--color-primary) 55%, transparent); }
+.cycle-dots .now { width: 1.25rem; background: var(--color-primary); }
+
+/* --- Spacious single-row action bar: one clear primary, two quiet secondary controls --- */
+.actions {
+	display: grid;
+	grid-template-columns: minmax(0, 1.5fr) auto auto;
+	gap: 0.625rem;
+}
+.action-primary {
+	min-height: 3.125rem;
+	font-size: 0.9375rem;
+	font-weight: 600;
+}
+.action-secondary,
+.action-reset {
+	min-height: 3.125rem;
+	padding-inline: 1.125rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	background: var(--color-base-200);
+	border: 1px solid var(--color-base-300);
+	color: var(--color-base-content);
+}
+.action-secondary:hover,
+.action-reset:hover {
+	background: var(--color-base-300);
+}
+.action-reset.is-idle {
+	color: color-mix(in oklab, var(--color-base-content) 65%, transparent);
+}
+@media (max-width: 390px) {
+	.actions {
+		grid-template-columns: 1fr 1fr;
+	}
+	.action-primary {
+		grid-column: 1 / -1;
+	}
+}
+
+/* --- Today & This week Activity summary card (app-screens.md divided KPI strip) --- */
+.summary-card {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	padding: 1.375rem 1.5rem;
+	border-radius: var(--radius-box);
+	background: var(--color-base-200);
+}
+.summary-top {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	flex-wrap: wrap;
+}
+.summary-heading {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.55rem;
+}
+.summary-title {
+	font-size: 0.9375rem;
+	font-weight: 600;
+	line-height: 1.25;
+	color: var(--color-base-content);
+}
+.state-mascot {
+	width: 1.85rem;
+	height: 1.85rem;
+	object-fit: contain;
+	flex: none;
+}
+.rhythm-chip {
+	font-size: 0.8125rem;
+	font-weight: 500;
+	padding: 0.3rem 0.75rem;
+	border-radius: 999px;
+	background: var(--color-base-100);
+	color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
+	cursor: pointer;
+	transition: background-color 140ms ease, color 140ms ease;
+}
+.rhythm-chip:hover {
+	background: var(--color-base-300);
+	color: var(--color-base-content);
+}
+.rhythm-chip:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+/* Divided 2-column KPI strip: Today | This week (no nested boxes, hairline split, tabular digits) */
+.activity-strip {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	padding-top: 0.875rem;
+	border-top: 1px solid color-mix(in oklab, var(--color-base-300) 80%, transparent);
+}
+.activity-col {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	min-width: 0;
+}
+.activity-col:first-child {
+	padding-right: 1rem;
+}
+.activity-col + .activity-col {
+	padding-left: 1.125rem;
+	border-left: 1px solid color-mix(in oklab, var(--color-base-300) 80%, transparent);
+}
+.activity-label {
+	font-size: 0.75rem;
+	font-weight: 500;
+	line-height: 1.3;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+}
+.activity-work {
+	display: flex;
+	align-items: baseline;
+	gap: 0.35rem;
+	flex-wrap: wrap;
+	margin-top: 0.125rem;
+	font-variant-numeric: tabular-nums;
+}
+.activity-value {
+	font-size: 1.5rem;
+	font-weight: 600;
+	line-height: 1.15;
+	letter-spacing: -0.025em;
+	color: var(--color-base-content);
+}
+.activity-unit {
+	font-size: 0.8125rem;
+	font-weight: 400;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+}
+.activity-breaks {
+	display: flex;
+	align-items: baseline;
+	gap: 0.35rem;
+	flex-wrap: wrap;
+	margin-top: 0.15rem;
+	font-size: 0.8125rem;
+	line-height: 1.35;
+	font-variant-numeric: tabular-nums;
+}
+.activity-breaks-count {
+	font-weight: 500;
+	color: var(--color-base-content);
+	white-space: nowrap;
+}
+.activity-dot {
+	color: color-mix(in oklab, var(--color-base-content) 45%, transparent);
+}
+.activity-breaks-mins {
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+	white-space: nowrap;
+}
+@media (max-width: 350px) {
+	.activity-strip {
+		grid-template-columns: 1fr;
+		gap: 0.875rem;
+	}
+	.activity-col:first-child {
+		padding-right: 0;
+	}
+	.activity-col + .activity-col {
+		padding-left: 0;
+		padding-top: 0.875rem;
+		border-left: 0;
+		border-top: 1px solid color-mix(in oklab, var(--color-base-300) 80%, transparent);
+	}
+}
+.idle-note {
+	font-size: 0.8125rem;
+	padding: 0.5rem 0.75rem;
+	border-radius: 0.75rem;
+	background: var(--color-base-100);
+	color: color-mix(in oklab, var(--color-base-content) 82%, transparent);
+}
+.idle-note[hidden] { display: none; }
+
+.dnd-banner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.625rem 0.875rem;
+	border-radius: 0.75rem;
+	background: var(--color-base-100);
+	font-size: 0.8125rem;
+	font-weight: 500;
+}
+.dnd-banner[hidden] { display: none; }
+.dnd-banner-off {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: var(--color-base-content);
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
+	cursor: pointer;
+}
+
+/* --- Quiet 7-Day Rhythm Strip (SVG chart) --- */
+.week-block {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-top: 0.375rem;
+	padding-top: 1rem;
+	border-top: 1px solid color-mix(in oklab, var(--color-base-300) 80%, transparent);
+}
+.week-head {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+.week-title {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: color-mix(in oklab, var(--color-base-content) 82%, transparent);
+}
+.week-meta {
+	font-size: 0.75rem;
+	color: color-mix(in oklab, var(--color-base-content) 65%, transparent);
+}
+.week-strip {
+	width: 100%;
+}
+.week-svg {
+	display: block;
+	overflow: visible;
+	font-variant-numeric: tabular-nums;
+}
+.week-grid {
+	stroke: color-mix(in oklab, var(--color-base-content) 12%, transparent);
+	stroke-width: 1;
+}
+.week-baseline {
+	stroke: color-mix(in oklab, var(--color-base-content) 22%, transparent);
+	stroke-width: 1;
+}
+.week-tick {
+	font-size: 11px;
+	fill: color-mix(in oklab, var(--color-base-content) 66%, transparent);
+}
+.week-bar {
+	fill: color-mix(in oklab, var(--color-base-content) 30%, transparent);
+}
+.week-bar-today {
+	fill: var(--color-primary);
+}
+.week-day {
+	font-size: 11px;
+	fill: color-mix(in oklab, var(--color-base-content) 66%, transparent);
+}
+.week-day-today {
+	font-size: 11px;
+	font-weight: 600;
+	fill: var(--color-primary);
+}
+.week-today-line {
+	stroke: var(--color-primary);
+	stroke-width: 1.5;
+	opacity: 0.45;
+}
+
+/* Quiet text action (Restore defaults, Preview chime) */
+.quiet-action {
+	align-self: center;
+	min-height: 2.25rem;
+	padding-inline: 0.75rem;
+	border-radius: 999px;
+	color: color-mix(in oklab, var(--color-base-content) 72%, transparent);
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
+	text-decoration-color: color-mix(in oklab, currentColor 40%, transparent);
+	cursor: pointer;
+}
+.chime-controls {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.875rem;
+	flex: none;
+}
+.quiet-inline {
+	font-size: 0.8125rem;
+	font-weight: 500;
+	padding: 0.35rem 0.625rem;
+	border-radius: 999px;
+	background: var(--color-base-100);
+	color: color-mix(in oklab, var(--color-base-content) 80%, transparent);
+	cursor: pointer;
+	transition: background-color 140ms ease, color 140ms ease;
+}
+.quiet-inline:hover {
+	background: var(--color-base-300);
+	color: var(--color-base-content);
+}
+@media (hover: hover) {
+	.quiet-action:hover { color: var(--color-base-content); }
+}
+
+/* --- Presets: two spacious cards side by side --- */
+.presets {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+.preset {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 0.25rem;
+	min-height: 4rem;
+	padding: 0.875rem 1rem;
+	border-radius: 0.875rem;
+	border: 1px solid var(--color-base-300);
+	background: var(--color-base-100);
+	text-align: start;
+	cursor: pointer;
+	transition: border-color 150ms ease, transform 120ms ease;
+}
+.preset:active { transform: scale(0.98); }
+.preset[aria-pressed="true"] {
+	border: 2px solid var(--color-primary);
+	padding: calc(0.875rem - 1px) calc(1rem - 1px);
+}
+.preset-name { font-weight: 600; font-size: 0.9375rem; }
+.preset-detail {
+	font-size: 0.8125rem;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+}
+
+/* --- Clean 2-field Work / Rest strip --- */
+.timing-strip {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 0.75rem;
+}
+.timing-field {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+	padding: 0.625rem 0.875rem;
+	border-radius: 0.875rem;
+	background: var(--color-base-100);
+}
+.timing-label {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: color-mix(in oklab, var(--color-base-content) 78%, transparent);
+}
+.timing-inputs {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.375rem;
+}
+.timing-field .num {
+	width: 3.5rem;
+	height: 2.125rem;
+	background: var(--color-base-200);
+}
+.timing-unit {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+}
+.unit {
+	height: 2.125rem;
+	padding-inline: 0.55rem 0.4rem;
+	border-radius: 999px;
+	background: var(--color-base-200);
+	color: var(--color-base-content);
+	font-weight: 500;
+	font-size: 0.875rem;
+	cursor: pointer;
+}
+@media (max-width: 400px) {
+	.timing-strip { grid-template-columns: 1fr; }
+}
+
+/* --- Inline sentences & aligned conditional sub-rows --- */
+.sentence {
+	font-size: 0.9375rem;
+	line-height: 2.3;
+}
+.setting-inline {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	cursor: pointer;
+}
+.setting-subrow {
+	margin-top: -0.65rem;
+	padding: 0.55rem 0.875rem;
+	border-radius: 0.875rem;
+	background: var(--color-base-100);
+}
+.setting-subrow .num {
+	width: 3.5rem;
+	height: 2.125rem;
+	background: var(--color-base-200);
+}
+.prompt-heading {
+	display: block;
+	margin-bottom: 0.5rem;
+}
+.sentence[hidden],
+.setting-inline[hidden],
+.hint[hidden],
+.setting[hidden] { display: none; }
+.hint {
+	font-size: 0.8125rem;
+	line-height: 1.5;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+}
+
+/* --- Clean segmented control track --- */
+.seg-track {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.2rem;
+	padding: 0.25rem;
+	border-radius: 999px;
+	background: var(--color-base-100);
+	flex-shrink: 0;
+}
+.seg-four {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	width: 100%;
+}
+@media (max-width: 440px) {
+	.seg-four {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		border-radius: 0.875rem;
+	}
+}
+.seg-item {
+	appearance: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 2.125rem;
+	padding-inline: 0.75rem;
+	border-radius: 999px;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: color-mix(in oklab, var(--color-base-content) 70%, transparent);
+	cursor: pointer;
+	transition: background-color 140ms ease, color 140ms ease;
+}
+.seg-item::before {
+	content: attr(aria-label);
+}
+.seg-item:hover { color: var(--color-base-content); }
+.seg-item:checked {
+	background: var(--color-base-300);
+	color: var(--color-base-content);
+	font-weight: 600;
+}
+.seg-item:focus-visible,
+.seg-btn:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+.seg-btn {
+	min-height: 2.125rem;
+	padding-inline: 0.875rem;
+	border-radius: 999px;
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: var(--color-base-content);
+	cursor: pointer;
+	transition: background-color 140ms ease;
+}
+.seg-btn:hover { background: var(--color-base-300); }
+
+/* --- Custom break prompt box (shown when Break prompt === Custom) --- */
+.prompt-row { width: 100%; }
+.custom-prompt {
+	display: flex;
+	flex-direction: column;
+	gap: 0.875rem;
+	padding: 1rem 1.125rem;
+	border-radius: 0.875rem;
+	background: color-mix(in oklab, var(--color-base-100) 65%, transparent);
+	border: 1px solid var(--color-base-300);
+}
+.custom-prompt[hidden] { display: none; }
+.prompt-presets-wrap {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+}
+.prompt-presets-label {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+}
+.prompt-presets {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.5rem;
+}
+.prompt-chip {
+	font-size: 0.75rem;
+	font-weight: 500;
+	padding: 0.35rem 0.75rem;
+	border-radius: 999px;
+	background: var(--color-base-200);
+	border: 1px solid var(--color-base-300);
+	color: var(--color-base-content);
+	cursor: pointer;
+	transition: background-color 140ms ease;
+}
+.prompt-chip:hover { background: var(--color-base-300); }
+.custom-fields {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+.custom-field {
+	display: flex;
+	flex-direction: column;
+	gap: 0.35rem;
+}
+.custom-label {
+	font-size: 0.8125rem;
+	font-weight: 500;
+	color: color-mix(in oklab, var(--color-base-content) 78%, transparent);
+}
+
+/* --- More options disclosure --- */
+.more { padding-top: 0.25rem; }
+.more summary {
+	list-style: none;
+	display: inline-flex;
+	align-items: center;
+	min-height: 2.25rem;
+	cursor: pointer;
+	font-size: 0.875rem;
+	font-weight: 600;
+	color: color-mix(in oklab, var(--color-base-content) 82%, transparent);
+}
+.more summary::-webkit-details-marker { display: none; }
+.more summary::before {
+	content: "";
+	width: 0.4rem;
+	height: 0.4rem;
+	margin-inline: 0.15rem 0.55rem;
+	border-right: 2px solid currentColor;
+	border-bottom: 2px solid currentColor;
+	transform: rotate(-45deg);
+	transition: transform 150ms ease;
+}
+.more[open] summary::before { transform: rotate(45deg); }
+.more[open] summary { margin-bottom: 0.5rem; }
+.more-body {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	padding-top: 0.25rem;
+}
+
+/* Keyboard focus: one clear ring on every custom control */
+.preset:focus-visible,
+.quiet-action:focus-visible,
+.quiet-inline:focus-visible,
+.prompt-chip:focus-visible,
+.unit:focus-visible,
+.num:focus-visible,
+.more summary:focus-visible,
+.dnd-banner-off:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+@media (forced-colors: active) {
+	.preset[aria-pressed="true"] { border-color: Highlight; }
+	.cycle-dots .now { background: Highlight; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.cycle-dots span,
+	.preset { transition: none; }
+}
+
+/* --- Shortcuts --- */
+.shortcut-keys {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	min-height: 2.125rem;
+	padding: 0.25rem 0.55rem;
+	border-radius: 0.625rem;
+	border: 1px dashed transparent;
+	cursor: pointer;
+}
+@media (hover: hover) {
+	.shortcut-keys:hover { border-color: var(--color-base-300); }
+}
+.shortcut-keys.recording {
+	border: 1px solid var(--color-primary);
+	color: var(--color-base-content);
+	font-weight: 600;
+	font-size: 0.875rem;
+	padding-inline: 0.75rem;
+}
+.shortcut-keys:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+.shortcut-foot {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.5rem;
+}
+.shortcut-foot .hint { font-size: 0.8125rem; }
+.shortcut-foot .quiet-action { font-size: 0.8125rem; flex-shrink: 0; }
+.shortcut-foot [hidden] { display: none; }
+
+.group-label {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	color: color-mix(in oklab, var(--color-base-content) 68%, transparent);
+}
+
+/* "While you are busy" */
+.dnd-choices {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.625rem 0.875rem;
+}
+.dnd-choices[hidden] { display: none; }
+.dnd-choice {
+	background: var(--color-base-100);
+	border-color: color-mix(in oklab, var(--color-base-content) 20%, transparent);
+}
+.focus-add { display: flex; flex-direction: column; gap: 0.5rem; margin-top: 0.5rem; }
+.focus-help { font-size: 0.8125rem; color: color-mix(in oklab, var(--color-base-content) 68%, transparent); }

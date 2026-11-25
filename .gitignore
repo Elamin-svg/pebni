@@ -1,0 +1,28 @@
+# Root level only. Each app has its own .gitignore
+# (apps/desktop/.gitignore, apps/web/.gitignore), so apps/desktop keeps its rules
+# when it is published as its own open-source repo.
+
+# Dependencies & package caches
+/node_modules/
+/.hutch/
+
+# Build & release output
+/build/
+/artifacts/
+*.tsbuildinfo
+
+# Local developer tools & temporary folders
+/.taste-skill/
+/.audio-cache/
+/.cottontail-tmp/
+/.claude/
+
+# Secrets: everywhere, as a safety net
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+flows

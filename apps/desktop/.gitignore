@@ -1,0 +1,24 @@
+# Dependencies & tool caches
+node_modules/
+.hutch/
+.cottontail-tmp/
+
+# Build output (Vite, Electrobun, release artifacts)
+dist/
+build/
+artifacts/
+*.tsbuildinfo
+
+# Secrets (ELEVENLABS_API_KEY lives in .env)
+.env
+.env.*
+
+# Audio generation cache (scripts/eleven.ts)
+.audio-cache/
+
+# Unused generated drafts
+gifs/
+
+# OS files
+.DS_Store
+Thumbs.db

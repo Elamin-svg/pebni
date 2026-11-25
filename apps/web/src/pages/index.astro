@@ -1,0 +1,1063 @@
+---
+import "../styles/pebni.css";
+
+// Repository slug: update via `node scripts/release.mjs <ver> --repo owner/repo` when publishing.
+const GITHUB_REPO = "Elamin-svg/pebni";
+const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;
+const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/Pebni-Setup.exe`;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Pebni: Fullscreen break companion for tired developer eyes</title>
+		<meta
+			name="description"
+			content="Pebni is a free, open-source desktop break companion for Windows (macOS coming soon) with custom timers, 20-20-20 and Pomodoro presets, Hide Skip, stories, meditation, and calm breathing."
+		/>
+		<link rel="icon" type="image/png" href="/art/logo.png" />
+		<link
+			rel="preload"
+			as="font"
+			type="font/woff2"
+			href="/fonts/bricolage-grotesque-latin-wght-normal.woff2"
+			crossorigin
+		/>
+		<script is:inline>document.documentElement.classList.add("js");</script>
+	</head>
+	<body>
+		<!-- Hero: The sentence is the layout — inline cabin break window + full cabin panorama -->
+		<header class="hero">
+			<nav class="wrap site-nav" aria-label="Primary">
+				<a class="wordmark" href="#top" id="top">
+					<img src="/art/logo.png" alt="" width="36" height="36" />
+					<span>Pebni</span>
+				</a>
+				<ul class="nav-links">
+					<li><a href="#why">Why Pebni</a></li>
+					<li><a href="#preview">How it works</a></li>
+					<li><a href="#benefits">Benefits</a></li>
+					<li><a href="#inside">Inside</a></li>
+					<li><a href="#faq">FAQ</a></li>
+					<li><a href="/downloads">Downloads</a></li>
+				</ul>
+			</nav>
+
+			<div class="wrap hero-top">
+				<h1 class="hero-title">
+					<span class="line">
+						<span data-line style="--i:0">
+							<span>Rest your</span>
+							<span class="hero-inline-window" aria-hidden="true">
+								<img src="/art/break-morning-window.jpg" alt="" width="320" height="180" fetchpriority="high" />
+							</span>
+							<span>eyes</span>
+						</span>
+					</span>
+					<span class="line">
+						<span data-line style="--i:1">before 6 p.m. hits.</span>
+					</span>
+				</h1>
+
+				<div class="hero-subgrid" data-load style="--d:240ms">
+					<p class="hero-lead">
+						I built Pebni because I kept skipping breaks until my eyes burned. It is a free, open-source break app for Windows that gently covers your screen. macOS coming soon.
+					</p>
+
+					<div class="hero-cta-block">
+						<div class="hero-actions">
+							<a class="btn btn-install" href="/downloads#windows">
+								<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+									<path d="M12 3v12" />
+									<path d="m7 10 5 5 5-5" />
+									<path d="M5 20h14" />
+								</svg>
+								<span>Download for Windows</span>
+							</a>
+							<a
+								class="btn btn-github"
+								href={GITHUB_URL}
+								target="_blank"
+								rel="noreferrer"
+								data-github-link
+								data-repo={GITHUB_REPO}
+							>
+								<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+									<path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.6-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z" />
+								</svg>
+								<span>GitHub</span>
+								<span class="star-count" data-star-badge hidden>
+									<svg viewBox="0 0 24 24" fill="currentColor" style="width:0.85rem;height:0.85rem" aria-hidden="true">
+										<path d="m12 2.5 2.93 5.94 6.56.95-4.74 4.62 1.12 6.53L12 17.46l-5.87 3.08 1.12-6.53L2.51 9.39l6.56-.95L12 2.5Z" />
+									</svg>
+									<span data-star-number></span>
+								</span>
+							</a>
+						</div>
+						<p class="hero-meta">
+							Free under MIT · <a href="/downloads">Windows download</a> · macOS coming soon · <a href="#preview">Try a break preview</a>
+						</p>
+					</div>
+				</div>
+
+				<div class="hero-stage" data-load style="--d:340ms">
+					<figure class="hero-panorama">
+						<img
+							src="/art/hero-panorama.jpg"
+							alt="Pebni leaning back in a wooden cabin chair looking out at golden sunset pine mountains while the laptop rests"
+							width="1600"
+							height="900"
+							fetchpriority="high"
+						/>
+					</figure>
+					<div class="hero-peeking">
+						<p class="hero-bubble">Time for a quick break. Look away from the code until your break is done.</p>
+						<img src="/art/logo.png" alt="Pebni mascot holding a warm mug of coffee" width="100" height="100" />
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<main>
+			<!-- Section 1: Intro — Clear indie-dev explanation + two staggered cabin illustrations -->
+			<section id="why" class="intro" aria-labelledby="why-heading">
+				<div class="wrap intro-grid">
+					<div class="intro-left">
+						<h2 id="why-heading" class="intro-head" data-reveal>Built because I skipped every break</h2>
+						<p class="intro-lead" data-reveal style="--rd:70ms">
+							Tiny corner popups never survive a debugging session. You swipe them away in half a second, then wonder why your eyes ache and your focus disappears by evening.
+						</p>
+						<p class="intro-copy" data-reveal style="--rd:130ms">
+							I built Pebni as a small, local-first desktop companion that fixes the willpower problem directly. Pick any work and break length you want, or start with 20-20-20 or Pomodoro presets. Instead of nagging you in a toast notification, Pebni turns your whole screen into a quiet cabin window, lets you hide the Skip button on short resets, and lets you unwind with short stories, guided meditation, or simple breathe-in, breathe-out cues.
+						</p>
+
+						<div class="intro-small-art" data-reveal style="--rd:180ms">
+							<div class="art-frame">
+								<img
+									src="/art/story-presets.jpg"
+									alt="Pebni sipping coffee by a sunlit cabin window next to a wooden hourglass and timer"
+									width="640"
+									height="480"
+									loading="lazy"
+								/>
+							</div>
+							<div class="intro-mascot-note">
+								<img src="/mascot/spot-eyestrain.png" alt="Pebni rubbing tired eyes after staring at a screen" width="84" height="84" loading="lazy" />
+								<span>20-20-20, Pomodoro, or custom</span>
+							</div>
+						</div>
+					</div>
+
+					<figure class="intro-right" data-reveal style="--rd:90ms">
+						<div class="intro-tall-art">
+							<img
+								src="/art/card-day.jpg"
+								alt="Pebni working comfortably by a sunny cabin window overlooking green hills"
+								width="1280"
+								height="720"
+								loading="lazy"
+							/>
+						</div>
+						<figcaption class="intro-caption">
+							Pebni lives quietly in your system tray with illustrated cabin scenes that follow your local time of day.
+						</figcaption>
+					</figure>
+				</div>
+			</section>
+
+			<!-- Section 2: Showcase: Authentic Light macOS Desktop App Flow + Gliding Tabs Below -->
+			<section id="preview" class="showcase" aria-labelledby="preview-heading">
+				<div class="wrap">
+					<div class="showcase-head">
+						<h2 id="preview-heading" data-reveal>See how a break arrives</h2>
+						<p data-reveal style="--rd:70ms">
+							Watch how Pebni sits quietly in your menu bar while you code, gives a gentle heads-up, and opens a calm fullscreen break until you are rested.
+						</p>
+					</div>
+
+					<div class="flow-shell" data-reveal style="--rd:100ms">
+						<div class="flow-backdrop">
+							<img class="flow-backdrop-img" src="/art/desktop-gradient.jpg" alt="" width="1600" height="960" loading="lazy" />
+							<div id="flow-desktop" class="flow-desktop" data-step="coding">
+								<div class="flow-stage-canvas">
+									<!-- Authentic macOS Menu Bar on pure-white desktop -->
+									<div class="macos-menubar" data-ui>
+										<div class="macos-menu-left">
+											<svg class="macos-apple" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+												<path d="M16.36 12.7c.02 2.25 1.98 3 2 3.01-.02.05-.31 1.07-1.03 2.12-.62.91-1.27 1.81-2.29 1.83-1 .02-1.32-.59-2.46-.59s-1.5.57-2.44.61c-.98.04-1.72-.98-2.35-1.88-1.28-1.85-2.26-5.22-.94-7.5.65-1.13 1.82-1.85 3.09-1.87.96-.02 1.87.65 2.46.65.59 0 1.7-.8 2.86-.68.49.02 1.86.2 2.74 1.49-.07.04-1.64.96-1.64 2.81ZM14.48 6.46c.52-.63.87-1.51.77-2.38-.75.03-1.66.5-2.2 1.13-.48.56-.9 1.45-.79 2.31.84.06 1.7-.43 2.22-1.06Z" />
+											</svg>
+											<span class="macos-app-name">Editor</span>
+											<span class="macos-menu-items" aria-hidden="true">
+												<span>File</span>
+												<span>Edit</span>
+												<span>View</span>
+												<span>Run</span>
+											</span>
+										</div>
+										<div class="macos-menu-right">
+											<span class="tray-pill">
+												<img src="/art/logo.png" alt="" width="18" height="18" />
+												<span id="tray-status">Pebni · 14:20</span>
+											</span>
+											<svg class="macos-status-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+												<path d="M5 12.55a11 11 0 0 1 14.08 0" />
+												<path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+												<circle cx="12" cy="19.5" r="1" fill="currentColor" />
+											</svg>
+											<span class="desktop-clock">Tue 5:40 PM</span>
+										</div>
+									</div>
+
+									<!-- Floating macOS Code Editor Window on Pure-White Desktop -->
+									<div class="desktop-canvas">
+										<div class="macos-window" data-ui>
+											<div class="macos-titlebar">
+												<span class="macos-lights" aria-hidden="true">
+													<span></span><span></span><span></span>
+												</span>
+												<p class="macos-title">pebni-timer.ts</p>
+												<span class="macos-branch">main</span>
+											</div>
+											<div class="macos-editor-body">
+												<div class="macos-sidebar" aria-hidden="true">
+													<span class="macos-folder">src</span>
+													<span class="macos-file macos-file--active">pebni-timer.ts</span>
+													<span class="macos-file">breaks.ts</span>
+													<span class="macos-file">wellness.ts</span>
+													<span class="macos-file">tray.ts</span>
+												</div>
+												<div class="macos-code-pane">
+													<div class="editor-lines" aria-hidden="true">
+														<div class="code-line">
+															<span class="code-num">1</span>
+															<span><span class="code-kw">export function</span> <span class="code-fn">scheduleBreak</span>(preset) &#123;</span>
+														</div>
+														<div class="code-line">
+															<span class="code-num">2</span>
+															<span style="padding-left:1rem"><span class="code-kw">const</span> mode = <span class="code-str">"fullscreen"</span>;</span>
+														</div>
+														<div class="code-line">
+															<span class="code-num">3</span>
+															<span style="padding-left:1rem"><span class="code-kw">if</span> (isInCall() || isTyping()) <span class="code-kw">return</span> wait();</span>
+														</div>
+														<div class="code-line">
+															<span class="code-num">4</span>
+															<span style="padding-left:1rem" class="code-typing-text"><span class="code-fn">openBreakScreen</span>(mode, preset);</span>
+															<span class="code-cursor"></span>
+														</div>
+														<div class="code-line">
+															<span class="code-num">5</span>
+															<span>&#125;</span>
+														</div>
+													</div>
+													<div class="macos-editor-foot" aria-hidden="true">
+														<span>TypeScript · UTF-8</span>
+														<span>Pebni running quietly</span>
+													</div>
+												</div>
+											</div>
+										</div>
+
+										<!-- Floating macOS Dock -->
+										<div class="macos-dock" data-ui aria-hidden="true">
+											<span class="dock-icon dock-icon--finder">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3" /><path d="M9 10v.01M15 10v.01M9 15c1.5 1.2 4.5 1.2 6 0" /></svg>
+											</span>
+											<span class="dock-icon dock-icon--code">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 8-4 4 4 4M16 8l4 4-4 4M13 5l-2 14" /></svg>
+												<span class="dock-dot"></span>
+											</span>
+											<span class="dock-icon dock-icon--term">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 8 5 4-5 4M12 16h7" /></svg>
+											</span>
+											<span class="dock-icon dock-icon--browser">
+												<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" /></svg>
+											</span>
+											<span class="dock-icon dock-icon--pebni">
+												<img src="/art/logo.png" alt="" width="30" height="30" />
+												<span class="dock-dot"></span>
+											</span>
+										</div>
+
+										<!-- Step 2: macOS Heads-Up Banner -->
+										<div class="desktop-toast desktop-toast--warn" data-ui aria-hidden="true">
+											<img src="/mascot/wave.png" alt="" width="48" height="48" />
+											<div class="desktop-toast-body">
+												<p class="desktop-toast-title">Break starting soon</p>
+												<p class="desktop-toast-sub">Finish your line. Fullscreen break in a moment.</p>
+												<div class="toast-bar"><span></span></div>
+											</div>
+										</div>
+
+										<!-- Step 4: macOS Break Done Banner -->
+										<div class="desktop-toast desktop-toast--done" data-ui aria-hidden="true">
+											<img src="/mascot/spot-with-pebni.png" alt="" width="48" height="48" />
+											<div class="desktop-toast-body">
+												<p class="desktop-toast-title">Your break is done</p>
+												<p class="desktop-toast-sub">Eyes rested. Your next focus round is running.</p>
+											</div>
+										</div>
+									</div>
+
+									<!-- Step 3: Fullscreen Break Covering the Entire macOS Screen -->
+									<div class="desktop-break-layer">
+										<video
+											id="preview-video"
+											class="showcase-video"
+											src="/art/break-evening-cabin.webm"
+											poster="/art/break-evening-cabin.jpg"
+											autoplay
+											muted
+											loop
+											playsinline
+										></video>
+										<div class="showcase-scrim" aria-hidden="true"></div>
+
+										<div class="showcase-overlay-ui" data-ui>
+											<p class="showcase-ui-title">Look away from the screen</p>
+											<p id="preview-ui-clock" class="showcase-ui-clock">0:20</p>
+											<p class="showcase-ui-note">
+												Let your eyes soften on a far wall or window until your break is done.
+											</p>
+											<div class="breath-inline">
+												<span class="breath-dot" aria-hidden="true"></span>
+												<span id="preview-breath-cue">Breathe in slowly</span>
+											</div>
+										</div>
+
+										<div class="showcase-overlay-foot" data-ui>
+											<span class="break-audio-pill">
+												<span class="wave-bars" aria-hidden="true"><span></span><span></span><span></span></span>
+												<span>Stories · Meditation · Breathing</span>
+											</span>
+											<span class="showcase-strict-text">Hide Skip on</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Animated Gliding Tabs BELOW the Desktop Window -->
+						<div class="flow-controls">
+							<div id="flow-tabs" class="flow-tabs" role="tablist" aria-label="Pebni app flow steps" data-ui>
+								<span id="flow-tab-slider" class="flow-tab-slider" aria-hidden="true"></span>
+								<button type="button" role="tab" class="flow-tab" data-flow-step="coding" aria-selected="true">
+									<span>While you code</span>
+									<span class="flow-tab-progress" aria-hidden="true"></span>
+								</button>
+								<button type="button" role="tab" class="flow-tab" data-flow-step="headsup" aria-selected="false">
+									<span>Gentle heads-up</span>
+									<span class="flow-tab-progress" aria-hidden="true"></span>
+								</button>
+								<button type="button" role="tab" class="flow-tab" data-flow-step="break" aria-selected="false">
+									<span>Fullscreen break</span>
+									<span class="flow-tab-progress" aria-hidden="true"></span>
+								</button>
+								<button type="button" role="tab" class="flow-tab" data-flow-step="done" aria-selected="false">
+									<span>Back to work</span>
+									<span class="flow-tab-progress" aria-hidden="true"></span>
+								</button>
+							</div>
+
+							<div class="flow-caption-row">
+								<p id="flow-caption" class="flow-caption">
+									Pebni stays completely out of your way in the menu bar while you write code on your own schedule.
+								</p>
+								<button id="flow-toggle" type="button" class="btn flow-play-toggle">Pause flow</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Section 3: Comparison: Without Pebni vs With Pebni (sharp contrast right after demo) -->
+			<section id="compare" class="compare" aria-labelledby="compare-heading">
+				<div class="wrap">
+					<div class="compare-head">
+						<h2 id="compare-heading" data-reveal>Without Pebni vs. with Pebni</h2>
+						<p data-reveal style="--rd:70ms">
+							What a normal eight-hour coding day feels like when breaks stay optional versus when your screen actually helps you pause.
+						</p>
+					</div>
+
+					<div class="compare-grid">
+						<div class="compare-col compare-col--without" data-reveal>
+							<div class="compare-col-head">
+								<h3>Without Pebni</h3>
+								<img src="/mascot/spot-without-pebni.png" alt="Exhausted Pebni with tired eyes and brain fog" width="72" height="72" loading="lazy" />
+							</div>
+							<ul class="compare-list">
+								<li>
+									<span class="compare-mark" aria-hidden="true">-</span>
+									<span>Tiny corner reminders get dismissed in half a second without looking up.</span>
+								</li>
+								<li>
+									<span class="compare-mark" aria-hidden="true">-</span>
+									<span>By 6 p.m. your eyes feel dry, tired, and unfocused on simple bugs.</span>
+								</li>
+								<li>
+									<span class="compare-mark" aria-hidden="true">-</span>
+									<span>You tell yourself you will rest after this PR, then code two more hours.</span>
+								</li>
+								<li>
+									<span class="compare-mark" aria-hidden="true">-</span>
+									<span>Breaks turn into scrolling another tab instead of resting your head.</span>
+								</li>
+							</ul>
+						</div>
+
+						<div class="compare-col compare-col--with" data-reveal style="--rd:80ms">
+							<div class="compare-col-head">
+								<h3>With Pebni</h3>
+								<img src="/mascot/spot-with-pebni.png" alt="Refreshed happy Pebni stretching with bright eyes" width="72" height="72" loading="lazy" />
+							</div>
+							<ul class="compare-list">
+								<li>
+									<span class="compare-mark" aria-hidden="true">+</span>
+									<span>A calm fullscreen break covers every monitor so you actually pause.</span>
+								</li>
+								<li>
+									<span class="compare-mark" aria-hidden="true">+</span>
+									<span>Hide Skip on short resets removes the willpower fight until your break is done.</span>
+								</li>
+								<li>
+									<span class="compare-mark" aria-hidden="true">+</span>
+									<span>Listen to short stories, follow guided meditation, or simply breathe in and out.</span>
+								</li>
+								<li>
+									<span class="compare-mark" aria-hidden="true">+</span>
+									<span>Waits politely during calls, screen shares, and steady typing flow.</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Section 4: Benefits: Deep developer payoffs with bespoke illustrations -->
+			<section id="benefits" class="features" aria-labelledby="benefits-heading">
+				<div class="wrap">
+					<div class="features-head">
+						<div class="features-head-inner">
+							<h2 id="benefits-heading" data-reveal>Why developers actually keep it running</h2>
+							<p data-reveal style="--rd:70ms">
+								Every part of Pebni is designed around one outcome: protecting your eyes and evening focus without getting in the way of real engineering work.
+							</p>
+						</div>
+					</div>
+
+					<div class="benefit-rows">
+						<article class="benefit-row" data-reveal>
+							<div class="benefit-mascot-col">
+								<img src="/mascot/spot-eyestrain.png" alt="Pebni rubbing tired eyes" width="96" height="96" loading="lazy" />
+							</div>
+							<div class="benefit-text-col">
+								<h3 class="benefit-title">Finish the evening without burning eyes</h3>
+								<p class="benefit-desc">
+									Staring 50 cm from a bright monitor locks your eye muscles for hours. Regular breaks on your own schedule, whether 20-20-20, Pomodoro, or custom timers, keep your vision comfortable and your head clear when 6 p.m. arrives.
+								</p>
+							</div>
+							<div class="benefit-art-col">
+								<figure class="benefit-art benefit-art--wide">
+									<img src="/art/benefit-evening-eyes.jpg" alt="Pebni coding comfortably at dusk with rested eyes in a warm lantern-lit cabin" width="640" height="400" loading="lazy" />
+								</figure>
+							</div>
+						</article>
+
+						<article class="benefit-row" data-reveal>
+							<div class="benefit-mascot-col">
+								<img src="/mascot/spot-hide-skip.png" alt="Pebni politely holding up a stop hand while hiding the skip button behind its back" width="96" height="96" loading="lazy" />
+							</div>
+							<div class="benefit-text-col">
+								<h3 class="benefit-title">Stop dismissing breaks on autopilot</h3>
+								<p class="benefit-desc">
+									Flip on Hide Skip for short resets. When there is no dismiss button waiting under your cursor, you stop negotiating with yourself and stay relaxed until your break is done.
+								</p>
+							</div>
+							<div class="benefit-art-col">
+								<figure class="benefit-art benefit-art--tall">
+									<img src="/art/benefit-hide-skip.jpg" alt="Pebni gently covering a laptop with a cozy quilted blanket while rain falls outside" width="520" height="390" loading="lazy" />
+								</figure>
+							</div>
+						</article>
+
+						<article class="benefit-row" data-reveal>
+							<div class="benefit-mascot-col">
+								<img src="/mascot/chill.png" alt="Pebni breathing calmly with closed eyes" width="96" height="96" loading="lazy" />
+							</div>
+							<div class="benefit-text-col">
+								<h3 class="benefit-title">Stories, meditation, or calm breathing</h3>
+								<p class="benefit-desc">
+									Pick what helps your mind reset: listen to a short calming story, follow a guided meditation, or simply breathe four seconds in and six seconds out with the breathing ring. Everything works offline with zero account.
+								</p>
+							</div>
+							<div class="benefit-art-col">
+								<figure class="benefit-art benefit-art--square">
+									<img src="/art/benefit-audio-stories.jpg" alt="Pebni wearing headphones with closed eyes in a cozy armchair beside a warm fireplace and open storybook" width="480" height="360" loading="lazy" />
+								</figure>
+							</div>
+						</article>
+
+						<article class="benefit-row" data-reveal>
+							<div class="benefit-mascot-col">
+								<img src="/mascot/spot-dnd-call.png" alt="Pebni wearing a call headset in quiet Do Not Disturb mode" width="96" height="96" loading="lazy" />
+							</div>
+							<div class="benefit-text-col">
+								<h3 class="benefit-title">Never interrupt a call, demo, or flow state</h3>
+								<p class="benefit-desc">
+									Pebni detects active typing and waits for a natural pause, holds breaks automatically during fullscreen apps or focus tools like Zoom, and gives you one-click Do Not Disturb.
+								</p>
+							</div>
+							<div class="benefit-art-col">
+								<figure class="benefit-art benefit-art--wide">
+									<img src="/art/benefit-calls-flow.jpg" alt="Pebni wearing a headset on a video call with a quiet crescent moon charm hanging on the cabin door" width="640" height="400" loading="lazy" />
+								</figure>
+							</div>
+						</article>
+
+						<article class="benefit-row" data-reveal>
+							<div class="benefit-mascot-col">
+								<img src="/mascot/spot-coffee-mute.png" alt="Pebni holding a warm coffee mug beside a muted speaker and gentle chime bell" width="96" height="96" loading="lazy" />
+							</div>
+							<div class="benefit-text-col">
+								<h3 class="benefit-title">Close long breaks without audio clutter</h3>
+								<p class="benefit-desc">
+									Press Escape to close a longer break if you want to watch YouTube or grab coffee. Your tray countdown stays live, ambient audio pauses automatically, and a soft chime calls you back when your break is done.
+								</p>
+							</div>
+							<div class="benefit-art-col">
+								<figure class="benefit-art benefit-art--tall benefit-art--right">
+									<img src="/art/card-night.jpg" alt="Pebni winding down in a starry night cabin" width="520" height="390" loading="lazy" />
+								</figure>
+							</div>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<!-- Section 5: Inside Pebni: Simple, Honest 2-over-1 Cropped UI Bento -->
+			<section id="inside" class="app-outline" aria-labelledby="inside-heading">
+				<div class="wrap">
+					<div class="outline-head">
+						<h2 id="inside-heading" data-reveal>Quiet controls, built for deep work</h2>
+						<p data-reveal style="--rd:70ms">
+							Simple, local desktop controls. Nothing to configure for an hour, just the few switches that keep breaks working.
+						</p>
+					</div>
+
+					<div class="bento-outline">
+						<div class="bento-top-row">
+							<!-- Top-Left Tile: Ultra-simple Timer View -->
+							<div class="bento-tile bento-tile--top" data-reveal>
+								<div class="bento-copy">
+									<h3>Your timer, without the clutter</h3>
+									<p>See when your next break starts, pick a preset, or pause anytime.</p>
+								</div>
+
+								<div class="mock-sheet mock-sheet--bleed-right" data-ui>
+									<div class="mock-crumb">
+										<img src="/art/logo.png" alt="" width="20" height="20" loading="lazy" />
+										<span>Pebni / Timer</span>
+									</div>
+									<p class="mock-timer-num">18:40</p>
+									<p class="mock-timer-sub">Until your next break</p>
+									<div class="mock-pills">
+										<span class="mock-pill mock-pill--active">20-20-20</span>
+										<span class="mock-pill">Pomodoro</span>
+										<span class="mock-pill">Custom</span>
+									</div>
+									<div class="mock-actions">
+										<span class="mock-action-pill">Take break</span>
+										<span class="mock-action-pill mock-action-pill--soft">Do Not Disturb</span>
+									</div>
+								</div>
+							</div>
+
+							<!-- Top-Right Tile: Clean 3-Switch Controls -->
+							<div class="bento-tile bento-tile--alt bento-tile--top" data-reveal style="--rd:80ms">
+								<div class="bento-copy">
+									<h3>Simple rules that hold up</h3>
+									<p>Keep short resets unskippable and stay silent during calls or long breaks.</p>
+								</div>
+
+								<div class="mock-settings-stack" data-ui>
+									<div class="mock-setting-card">
+										<div class="mock-setting-row">
+											<div class="mock-setting-text">
+												<strong>Hide Skip on short breaks</strong>
+												<span>Stays up until your break is done</span>
+											</div>
+											<button type="button" role="switch" aria-checked="true" aria-label="Hide Skip on short breaks" class="mock-switch">
+												<span></span>
+											</button>
+										</div>
+										<div class="mock-setting-row">
+											<div class="mock-setting-text">
+												<strong>Mute audio in background</strong>
+												<span>Quiet when you close a long break</span>
+											</div>
+											<button type="button" role="switch" aria-checked="true" aria-label="Mute audio in background" class="mock-switch">
+												<span></span>
+											</button>
+										</div>
+										<div class="mock-setting-row">
+											<div class="mock-setting-text">
+												<strong>Pause on calls &amp; fullscreen</strong>
+												<span>Never interrupts Zoom or demos</span>
+											</div>
+											<button type="button" role="switch" aria-checked="true" aria-label="Pause on calls and fullscreen" class="mock-switch">
+												<span></span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- Bottom Full-Width Tile: Clean Wellness & Break Audio -->
+						<div class="bento-tile bento-tile--wide" data-reveal style="--rd:120ms">
+							<div class="bento-copy">
+								<h3>Stories, meditation, or a calm breath</h3>
+								<p>
+									Pick short offline stories, guided meditation, or simple breathe-in, breathe-out pacing while you rest.
+								</p>
+								<a class="btn bento-cta" href="/downloads">Download Pebni</a>
+							</div>
+
+							<div class="mock-sheet mock-sheet--wide" data-ui>
+								<div class="mock-crumb">
+									<img src="/art/logo.png" alt="" width="20" height="20" loading="lazy" />
+									<span>Pebni / Break audio</span>
+								</div>
+								<div class="mock-audio-box">
+									<div class="mock-audio-box-left">
+										<img src="/mascot/chill.png" alt="" width="44" height="44" loading="lazy" />
+										<div>
+											<strong>Breathe in, breathe out</strong>
+											<span>Four seconds in, six out with a calm visual ring</span>
+										</div>
+									</div>
+								</div>
+								<div class="mock-wellness-list">
+									<div class="mock-wellness-chip mock-wellness-chip--active">
+										<strong>Breathing</strong>
+										<span>4s in · 6s out</span>
+									</div>
+									<div class="mock-wellness-chip">
+										<strong>Short stories</strong>
+										<span>Calm audio tales</span>
+									</div>
+									<div class="mock-wellness-chip">
+										<strong>Meditation</strong>
+										<span>Guided voice</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Section 6: FAQ: Wide heading, indented questions -->
+			<section id="faq" class="faq" aria-labelledby="faq-heading">
+				<div class="wrap">
+					<h2 id="faq-heading" class="faq-head">Questions devs ask first</h2>
+
+					<div class="faq-grid">
+						<div class="faq-mascot-col">
+							<img src="/mascot/spot-faq.png" alt="Curious Pebni holding a warm mug with a question mark" width="112" height="112" loading="lazy" />
+							<p>Straight answers on platforms, privacy, and how Pebni behaves during real work.</p>
+						</div>
+
+						<div class="faq-list">
+							<details class="faq-item" name="pebni-faq" open>
+								<summary>
+									<span>Is Pebni really free and open source?</span>
+									<span class="faq-plus" aria-hidden="true"></span>
+								</summary>
+								<p class="faq-answer">
+									Yes. The desktop app is free and licensed under MIT. You can read every line of TypeScript, inspect the architecture tests, build it locally, or open a pull request on GitHub.
+								</p>
+							</details>
+
+							<details class="faq-item" name="pebni-faq">
+								<summary>
+									<span>Why cover the whole screen?</span>
+									<span class="faq-plus" aria-hidden="true"></span>
+								</summary>
+								<p class="faq-answer">
+									Because small corner toasts are too easy to ignore mid-thought. A calm fullscreen break creates just enough friction to help you actually look away, and Hide Skip removes the muscle-memory escape hatch on short resets.
+								</p>
+							</details>
+
+							<details class="faq-item" name="pebni-faq">
+								<summary>
+									<span>Will it interrupt Zoom or screen shares?</span>
+									<span class="faq-plus" aria-hidden="true"></span>
+								</summary>
+								<p class="faq-answer">
+									No. Pebni automatically holds breaks when any app is fullscreen or when chosen focus apps like Zoom are running, and waits while you are typing continuously. You can also toggle Do Not Disturb in one click.
+								</p>
+							</details>
+
+							<details class="faq-item" name="pebni-faq">
+								<summary>
+									<span>Can I close long breaks early?</span>
+									<span class="faq-plus" aria-hidden="true"></span>
+								</summary>
+								<p class="faq-answer">
+									Yes. Longer breaks and coffee breathers stay closeable with Escape or the close button if you want to watch YouTube or stretch away from your desk. Your timer keeps counting in the tray, optional background muting pauses break audio cleanly, and a gentle chime plays when your break is done.
+								</p>
+							</details>
+
+							<details class="faq-item" name="pebni-faq">
+								<summary>
+									<span>Does it run on Windows and macOS?</span>
+									<span class="faq-plus" aria-hidden="true"></span>
+								</summary>
+								<p class="faq-answer">
+									Windows 10 and 11 are supported today. macOS is coming soon once we finish testing the native build. Pebni runs on Electrobun (Bun plus your OS native webview) without shipping an extra copy of Chromium.
+								</p>
+							</details>
+
+							<details class="faq-item" name="pebni-faq">
+								<summary>
+									<span>Any accounts, tracking, or telemetry?</span>
+									<span class="faq-plus" aria-hidden="true"></span>
+								</summary>
+								<p class="faq-answer">
+									None. Zero accounts, zero analytics, zero network calls required. Your preferences and 7-day break rhythm stay in a plain local JSON file on your machine.
+								</p>
+							</details>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Section 6: CTA: Three cabin illustrations strip + warm pure-light closing field -->
+			<section id="download" class="cta" aria-labelledby="cta-heading">
+				<div class="cta-strip" aria-hidden="true">
+					<img src="/art/card-morning.jpg" alt="" width="640" height="360" loading="lazy" />
+					<img src="/art/break-evening-cabin.jpg" alt="" width="640" height="360" loading="lazy" />
+					<img src="/art/break-fireplace.jpg" alt="" width="640" height="360" loading="lazy" />
+				</div>
+
+				<div class="wrap cta-field">
+					<div class="cta-field-inner">
+						<div class="cta-copy">
+							<h2 id="cta-heading">Give your eyes a real break tonight.</h2>
+							<p>
+								Install Pebni in seconds, pick 20-20-20, Pomodoro, or your own custom schedule, and see how much clearer your evenings feel when your eyes finally get to rest.
+							</p>
+							<div class="cta-actions">
+								<a class="btn btn-install" href="/downloads#windows">
+									<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<path d="M12 3v12" />
+										<path d="m7 10 5 5 5-5" />
+										<path d="M5 20h14" />
+									</svg>
+									<span>Download for Windows</span>
+								</a>
+								<a
+									class="btn btn-github"
+									href={GITHUB_URL}
+									target="_blank"
+									rel="noreferrer"
+									data-github-link
+									data-repo={GITHUB_REPO}
+								>
+									<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+										<path d="M12 .5a12 12 0 0 0-3.79 23.39c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.38-1.33-1.75-1.33-1.75-1.09-.74.08-.73.08-.73 1.2.09 1.84 1.24 1.84 1.24 1.07 1.83 2.81 1.3 3.5.99.11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.34-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.12-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.66 1.66.25 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.6-2.81 5.63-5.49 5.92.43.37.82 1.1.82 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 12 .5Z" />
+									</svg>
+									<span>Star on GitHub</span>
+									<span class="star-count" data-star-badge hidden>
+										<svg viewBox="0 0 24 24" fill="currentColor" style="width:0.85rem;height:0.85rem" aria-hidden="true">
+											<path d="m12 2.5 2.93 5.94 6.56.95-4.74 4.62 1.12 6.53L12 17.46l-5.87 3.08 1.12-6.53L2.51 9.39l6.56-.95L12 2.5Z" />
+										</svg>
+										<span data-star-number></span>
+									</span>
+								</a>
+							</div>
+						</div>
+						<img class="cta-mascot" src="/mascot/wave.png" alt="Pebni waving goodbye" width="152" height="152" loading="lazy" />
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<!-- Section 7: Footer — Photograph half, menu half (pure white) -->
+		<footer class="site-footer">
+			<div class="wrap">
+				<div class="footer-split">
+					<figure class="footer-art">
+						<img
+							src="/art/break-morning-window.jpg"
+							alt="Calm pine cabin window looking out over morning mist"
+							width="800"
+							height="540"
+							loading="lazy"
+						/>
+					</figure>
+
+					<div class="footer-right">
+						<div class="footer-brand">
+							<a class="wordmark" href="#top">
+								<img src="/art/logo.png" alt="" width="36" height="36" loading="lazy" />
+								<span>Pebni</span>
+							</a>
+							<p class="footer-note">
+								Built by an indie developer for anyone who stares at code too long. Free, local-first, and open source under MIT.
+							</p>
+						</div>
+
+						<div class="footer-cols">
+							<div class="footer-col">
+								<h3>Explore</h3>
+								<ul>
+									<li><a href="#why">Why Pebni</a></li>
+									<li><a href="#preview">Live demo</a></li>
+									<li><a href="#benefits">Benefits</a></li>
+									<li><a href="#faq">FAQ</a></li>
+								</ul>
+							</div>
+							<div class="footer-col">
+								<h3>Download</h3>
+								<ul>
+									<li><a href="/downloads">All downloads</a></li>
+									<li><a href="/downloads#windows">Windows installer</a></li>
+									<li><a href="/downloads#macos">macOS (coming soon)</a></li>
+								</ul>
+							</div>
+							<div class="footer-col">
+								<h3>Open source</h3>
+								<ul>
+									<li><a href={GITHUB_URL} target="_blank" rel="noreferrer">GitHub repository</a></li>
+									<li><a href={`${GITHUB_URL}/blob/main/LICENSE`} target="_blank" rel="noreferrer">MIT License</a></li>
+									<li><a href={`${GITHUB_URL}/blob/main/SECURITY.md`} target="_blank" rel="noreferrer">Security policy</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="footer-bottom">
+					<span>© 2026 Pebni · Open source under MIT</span>
+					<a class="btn btn-soft" href="#top">Back to top</a>
+				</div>
+			</div>
+		</footer>
+
+		<script>
+			// 1. Live GitHub stars fetch (silent fallback when placeholder repo is 404; never invent numbers)
+			const ghLinks = [...document.querySelectorAll<HTMLAnchorElement>("[data-github-link]")];
+			const repo = ghLinks[0]?.dataset.repo;
+			if (repo) {
+				fetch(`https://api.github.com/repos/${repo}`, { headers: { Accept: "application/vnd.github+json" } })
+					.then((r) => (r.ok ? r.json() : null))
+					.then((data) => {
+						if (!data || typeof data.stargazers_count !== "number") return;
+						const formatted = new Intl.NumberFormat("en", { notation: "compact" }).format(data.stargazers_count);
+						for (const link of ghLinks) {
+							const badge = link.querySelector<HTMLElement>("[data-star-badge]");
+							const num = link.querySelector<HTMLElement>("[data-star-number]");
+							if (badge && num) {
+								num.textContent = formatted;
+								badge.hidden = false;
+							}
+						}
+					})
+					.catch(() => {});
+			}
+
+			// 3. Animated White Desktop App Flow + Gliding Tab Slider Below
+			type FlowStep = "coding" | "headsup" | "break" | "done";
+			const FLOW_ORDER: FlowStep[] = ["coding", "headsup", "break", "done"];
+			const FLOW_META: Record<FlowStep, { duration: number; tray: string; caption: string }> = {
+				coding: {
+					duration: 4200,
+					tray: "Pebni · 14:20",
+					caption: "Pebni stays completely out of your way in the menu bar while you write code on your own schedule.",
+				},
+				headsup: {
+					duration: 4400,
+					tray: "Break in 0:30",
+					caption: "Right before a break, a quiet corner heads-up gives you a moment to finish your thought without startling you.",
+				},
+				break: {
+					duration: 5800,
+					tray: "On break",
+					caption: "Then your whole screen opens into a calm cabin break with optional Hide Skip, stories, meditation, or guided breathing.",
+				},
+				done: {
+					duration: 3800,
+					tray: "Next round",
+					caption: "Once your break is done, the cabin fades away and puts you right back at your cursor with rested eyes.",
+				},
+			};
+
+			const flowDesktop = document.getElementById("flow-desktop");
+			const flowTabsWrap = document.getElementById("flow-tabs");
+			const flowSlider = document.getElementById("flow-tab-slider");
+			const flowCaption = document.getElementById("flow-caption");
+			const trayStatus = document.getElementById("tray-status");
+			const flowToggle = document.getElementById("flow-toggle");
+			const breakClockEl = document.getElementById("preview-ui-clock");
+			const breathCueEl = document.getElementById("preview-breath-cue");
+			const flowTabs = [...document.querySelectorAll<HTMLButtonElement>(".flow-tab")];
+
+			let flowIndex = 0;
+			let flowPaused = matchMedia("(prefers-reduced-motion: reduce)").matches;
+			let flowTimeout: number | undefined;
+			let breakTickInterval: number | undefined;
+			let breakSeconds = 20;
+
+			function formatSec(n: number) {
+				return n < 10 ? "0:0" + n : "0:" + n;
+			}
+
+			function positionSlider(tab: HTMLButtonElement) {
+				if (!flowSlider) return;
+				flowSlider.style.width = `${tab.offsetWidth}px`;
+				flowSlider.style.transform = `translateX(${tab.offsetLeft - 6}px)`;
+			}
+
+			function clearFlowTimers() {
+				if (flowTimeout) window.clearTimeout(flowTimeout);
+				if (breakTickInterval) window.clearInterval(breakTickInterval);
+				flowTimeout = undefined;
+				breakTickInterval = undefined;
+			}
+
+			function applyFlowStep(index: number, animateCaption = true) {
+				clearFlowTimers();
+				flowIndex = (index + FLOW_ORDER.length) % FLOW_ORDER.length;
+				const step = FLOW_ORDER[flowIndex];
+				const meta = FLOW_META[step];
+
+				if (flowDesktop) flowDesktop.dataset.step = step;
+				if (trayStatus) trayStatus.textContent = meta.tray;
+
+				flowTabs.forEach((btn, i) => {
+					const active = i === flowIndex;
+					btn.setAttribute("aria-selected", String(active));
+					btn.style.setProperty("--step-dur", `${meta.duration}ms`);
+					const bar = btn.querySelector<HTMLElement>(".flow-tab-progress");
+					if (bar) {
+						bar.style.animation = "none";
+						void bar.offsetWidth;
+						bar.style.animation = "";
+					}
+					if (active) positionSlider(btn);
+				});
+
+				if (flowCaption) {
+					if (animateCaption) {
+						flowCaption.classList.add("is-swapping");
+						window.setTimeout(() => {
+							flowCaption.textContent = meta.caption;
+							flowCaption.classList.remove("is-swapping");
+						}, 140);
+					} else {
+						flowCaption.textContent = meta.caption;
+					}
+				}
+
+				if (step === "break") {
+					breakSeconds = 20;
+					if (breakClockEl) breakClockEl.textContent = "0:20";
+					if (breathCueEl) breathCueEl.textContent = "Breathe in slowly";
+					breakTickInterval = window.setInterval(() => {
+						breakSeconds = Math.max(1, breakSeconds - 1);
+						if (breakClockEl) breakClockEl.textContent = formatSec(breakSeconds);
+						if (breathCueEl) {
+							const phase = (20 - breakSeconds) % 6;
+							breathCueEl.textContent = phase < 3 ? "Breathe in slowly" : "Breathe out slowly";
+						}
+					}, 1000);
+				}
+
+				if (!flowPaused) {
+					flowTimeout = window.setTimeout(() => applyFlowStep(flowIndex + 1), meta.duration);
+				}
+			}
+
+			flowTabs.forEach((tab, idx) => {
+				tab.addEventListener("click", () => applyFlowStep(idx));
+			});
+
+			flowToggle?.addEventListener("click", () => {
+				flowPaused = !flowPaused;
+				flowTabsWrap?.classList.toggle("is-paused", flowPaused);
+				if (flowToggle) flowToggle.textContent = flowPaused ? "Play flow" : "Pause flow";
+				if (flowPaused) {
+					clearFlowTimers();
+				} else {
+					applyFlowStep(flowIndex, false);
+				}
+			});
+
+			// Proportionally scale the 960x540 macOS desktop stage cleanly to any viewport (true 16:9 on mobile too)
+			function scaleDesktopStage() {
+				if (!flowDesktop) return;
+				const scale = flowDesktop.clientWidth / 960;
+				flowDesktop.style.setProperty("--stage-scale", String(scale));
+			}
+
+			window.addEventListener("resize", () => {
+				scaleDesktopStage();
+				const active = flowTabs[flowIndex];
+				if (active) positionSlider(active);
+			});
+
+			if (flowDesktop && "ResizeObserver" in window) {
+				new ResizeObserver(scaleDesktopStage).observe(flowDesktop);
+			}
+			scaleDesktopStage();
+
+			if (flowPaused) {
+				flowTabsWrap?.classList.add("is-paused");
+				if (flowToggle) flowToggle.textContent = "Play flow";
+			}
+			applyFlowStep(0, false);
+
+			// 4. Interactive toggle switches inside the bento settings mockup
+			document.querySelectorAll<HTMLButtonElement>(".mock-switch").forEach((sw) => {
+				sw.addEventListener("click", () => {
+					const next = sw.getAttribute("aria-checked") !== "true";
+					sw.setAttribute("aria-checked", String(next));
+				});
+			});
+
+			// 5. Scroll reveals (with passive scroll fallback so long pages never leave a block hidden)
+			const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+			const reveals = [...document.querySelectorAll<HTMLElement>("[data-reveal]")];
+			function revealVisible() {
+				const cutoff = window.innerHeight * 1.12;
+				for (const el of reveals) {
+					if (!el.classList.contains("is-in") && el.getBoundingClientRect().top <= cutoff) {
+						el.classList.add("is-in");
+					}
+				}
+			}
+			if (reduced || !("IntersectionObserver" in window)) {
+				reveals.forEach((el) => el.classList.add("is-in"));
+			} else {
+				const io = new IntersectionObserver(
+					(entries) => {
+						for (const e of entries) {
+							if (e.isIntersecting) {
+								e.target.classList.add("is-in");
+								io.unobserve(e.target);
+							}
+						}
+					},
+					{ rootMargin: "0px 0px 14% 0px", threshold: 0.01 },
+				);
+				reveals.forEach((el) => io.observe(el));
+				window.addEventListener("scroll", revealVisible, { passive: true });
+				revealVisible();
+			}
+		</script>
+	</body>
+</html>

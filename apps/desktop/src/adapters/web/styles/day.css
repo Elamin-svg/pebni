@@ -1,0 +1,224 @@
+/* The timer window by time of day. day-view.ts sets data-part on #scene:
+   morning (Pip has a coffee), day (the usual valley), evening (Pip chills), night (Pip sleeps).
+   Flat colours from the valley palette only: sage, moss, pine, moon white. */
+
+/* --- Valley colours. The SVG fills read these variables. --- */
+.scene {
+	/* day, and the fallback before the first snapshot */
+	--scene-ink: #1f2622;
+	--v-sky: #c9d4cf;
+	--v-far: #a8b8b1;
+	--v-hills: #8ea398;
+	--v-pines: #4e6a5c;
+	--v-meadow: #6f8a79;
+	--v-flowers: #ece8df;
+	--v-moon: #f4f1ea;
+	--stars-on: 0;
+	--stars-min: 0;
+	--moon-drop: 100px; /* how far below its top spot the sun or moon starts */
+	--bubble-bg: #f4f1ea;
+	--bubble-ink: #1f2622;
+}
+/* Morning: a pale warm dawn, a soft sun low in the sky */
+.scene[data-part="morning"] {
+	--v-sky: #e4e0d2;
+	--v-far: #bcc4b6;
+	--v-hills: #9eae9f;
+	--v-pines: #56705f;
+	--v-meadow: #789180;
+	--v-moon: #f3dfb0;
+}
+/* Evening: dusk sets in, the first stars, Pip turns light */
+.scene[data-part="evening"] {
+	--scene-ink: #f4f1ea;
+	--v-sky: #5f7377;
+	--v-far: #4f6466;
+	--v-hills: #435a55;
+	--v-pines: #22352f;
+	--v-meadow: #33493f;
+	--v-flowers: #c9d4cf;
+	--stars-on: 1;
+	--stars-min: 0.35;
+	--moon-drop: 60px;
+}
+/* Night: deep blue-green, a crescent moon already up, the stars all out */
+.scene[data-part="night"] {
+	--scene-ink: #e8e6e0;
+	--v-sky: #142826;
+	--v-far: #1d3633;
+	--v-hills: #243f3a;
+	--v-pines: #0f1f1a;
+	--v-meadow: #18302a;
+	--v-flowers: #8ea398;
+	--stars-on: 1;
+	--stars-min: 0.85;
+	--moon-drop: 20px;
+	--bubble-bg: #26352f;
+	--bubble-ink: #e8e6e0;
+}
+.v-sky { fill: var(--v-sky); }
+.v-far { fill: var(--v-far); }
+.v-hills { fill: var(--v-hills); }
+.v-pines { fill: var(--v-pines); }
+.v-meadow { fill: var(--v-meadow); }
+.v-flowers { fill: var(--v-flowers); }
+.v-moon { fill: var(--v-moon); }
+.v-moon-cut { fill: var(--v-sky); opacity: 0; }
+.scene[data-part="night"] .v-moon-cut { opacity: 1; }
+
+/* Light Pip on the dark valleys */
+.scene[data-part="evening"] .pip,
+.scene[data-part="night"] .pip {
+	--pip-body: #ecebe9;
+	--pip-face: #1c1c1c;
+}
+
+/* --- Pip's props: hidden unless the part of the day shows them --- */
+.pip { overflow: visible; }
+.pip .prop-mug,
+.pip .prop-zzz {
+	display: none;
+}
+.pip .steam {
+	fill: none;
+	stroke: var(--scene-ink);
+	stroke-width: 2.5;
+	stroke-linecap: round;
+	opacity: 0;
+	animation: steam 3s ease-out infinite;
+}
+.pip .steam-2 { animation-delay: 1.5s; }
+@keyframes steam {
+	0% { opacity: 0; transform: translateY(4px); }
+	30% { opacity: 0.55; }
+	100% { opacity: 0; transform: translateY(-8px); }
+}
+.pip .z {
+	fill: var(--scene-ink);
+	font-weight: 700;
+	opacity: 0;
+	animation: drift 4.5s ease-in-out infinite;
+}
+.pip .z-1 { font-size: 16px; }
+.pip .z-2 { font-size: 21px; animation-delay: 1.5s; }
+.pip .z-3 { font-size: 26px; animation-delay: 3s; }
+@keyframes drift {
+	0% { opacity: 0; transform: translate(-3px, 6px); }
+	30%, 60% { opacity: 0.85; }
+	100% { opacity: 0; transform: translate(3px, -6px); }
+}
+
+/* Morning: Pip holds a warm mug and takes a slow sip now and then */
+.scene[data-part="morning"] .pip .prop-mug { display: inline; }
+.scene[data-part="morning"] .pip {
+	transform-origin: 50% 90%;
+	animation: pip-morning-sip 6s ease-in-out infinite;
+}
+@keyframes pip-morning-sip {
+	0%, 55%, 100% { transform: rotate(0deg); }
+	70%, 85% { transform: rotate(-4deg); }
+}
+
+/* Evening: heavy, happy eyes and a lazy sway */
+.scene[data-part="evening"] .pip {
+	transform-origin: 50% 95%;
+	animation: pip-sway 7s ease-in-out infinite;
+}
+.scene[data-part="evening"] .pip .eyes-open {
+	animation: none;
+	transform-origin: 60px 62px;
+	transform: scaleY(0.55);
+}
+@keyframes pip-sway {
+	0%, 100% { transform: rotate(-2.5deg); }
+	50% { transform: rotate(2.5deg); }
+}
+
+/* Night: Pip is asleep, breathing slowly, with little z's floating up */
+.scene[data-part="night"] .pip .eyes-open { display: none; }
+.scene[data-part="night"] .pip .eyes-closed { display: inline; }
+.scene[data-part="night"] .pip .prop-zzz { display: inline; }
+.scene[data-part="night"] .pip .mouth {
+	transform-origin: 60px 78px;
+	transform: scale(0.55, 0.7);
+}
+.scene[data-part="night"] .pip {
+	transform-origin: 50% 95%;
+	animation: pip-breathe 4.5s ease-in-out infinite;
+}
+@keyframes pip-breathe {
+	0%, 100% { transform: scale(1, 1); }
+	50% { transform: scale(1.03, 0.97); }
+}
+
+/* --- Pip's speech bubble: a small flat card with a tail pointing at Pip --- */
+.pip-bubble {
+	position: absolute;
+	right: calc(22% + 5.25rem);
+	bottom: 6.25rem;
+	left: 1.25rem;
+	margin-left: auto;
+	width: max-content;
+	max-width: 11rem;
+	padding: 0.55rem 0.85rem;
+	border-radius: 1rem 1rem 0.3rem 1rem;
+	background: var(--bubble-bg);
+	color: var(--bubble-ink);
+	font-size: 0.875rem;
+	line-height: 1.3;
+	text-wrap: balance;
+}
+.pip-bubble:empty { display: none; }
+.pip-bubble::after {
+	content: "";
+	position: absolute;
+	right: -6px;
+	bottom: 0;
+	width: 12px;
+	height: 10px;
+	background: var(--bubble-bg);
+	clip-path: polygon(0 0, 0 100%, 100% 100%);
+}
+.bubble-in { animation: bubble-in 500ms ease-out; }
+@keyframes bubble-in {
+	from { opacity: 0; transform: translateY(4px); }
+	to { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.scene .pip,
+	.pip .steam,
+	.pip .z,
+	.bubble-in {
+		animation: none;
+	}
+	.pip .steam,
+	.pip .z {
+		opacity: 0.6;
+	}
+}
+
+/* The illustration in the card: fills the card for each time of day, with dark ink on */
+/* morning/day skies and cream ink on evening/night skies. */
+.scene-photo {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: 82% 55%;
+}
+.scene-photo[hidden] { display: none; }
+.scene.has-art { --scene-ink: #1f2622; --bubble-bg: #fbfaf6; --bubble-ink: #1f2622; }
+.scene.has-art[data-part="evening"],
+.scene.has-art[data-part="night"] {
+	--scene-ink: #f4f1ea;
+	--bubble-bg: #26352f;
+	--bubble-ink: #ebe3d4;
+}
+.scene.has-art .scene-art,
+.scene.has-art .pip-slot { display: none; }
+.scene.has-art .pip-bubble { right: 34%; bottom: 7.5rem; }
+/* Clock and bubble stay above the picture */
+.scene.has-art .scene-text,
+.scene.has-art .pip-bubble { z-index: 1; }
