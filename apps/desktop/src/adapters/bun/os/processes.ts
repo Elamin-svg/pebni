@@ -65,6 +65,23 @@ function psProcesses(): Program[] {
 	});
 }
 
+// The given processes and every process they started, at any depth (for example Pebni and its
+// WebView helpers).
+export function treeOf(roots: number[], programs: Program[]): Set<number> {
+	const tree = new Set(roots);
+	let grew = true;
+	while (grew) {
+		grew = false;
+		for (const p of programs) {
+			if (!tree.has(p.pid) && tree.has(p.parent)) {
+				tree.add(p.pid);
+				grew = true;
+			}
+		}
+	}
+	return tree;
+}
+
 // The names of a process and of the processes that started it (an app often records or draws
 // its window from a helper process). Stops at a loop or after a few steps.
 export function namesUpFrom(pid: number, programs: Program[]): string[] {
