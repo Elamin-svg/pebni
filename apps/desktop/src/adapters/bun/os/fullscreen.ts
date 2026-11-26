@@ -56,6 +56,19 @@ function windowsFullscreen(): boolean {
 	return covers(rect, info.subarray(1, 5));
 }
 
+// The process id of the window in front, or 0 when unknown (not Windows, or nothing in front).
+export function foregroundPid(): number {
+	if (process.platform !== "win32") return 0;
+	try {
+		user32 ??= loadUser32();
+		const hwnd = user32.GetForegroundWindow() as Pointer | null;
+		return hwnd ? ownerOf(hwnd) : 0;
+	} catch (error) {
+		console.warn("Could not read the window in front:", error);
+		return 0;
+	}
+}
+
 // True while a fullscreen app is in front. Never throws.
 export function foregroundIsFullscreen(): boolean {
 	if (process.platform !== "win32") return false;
