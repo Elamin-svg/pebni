@@ -12,7 +12,7 @@ A calm, open-source **20-20-20** break companion for developers. Every 20 minute
 
 ## Quick Start
 
-Requires [Hutch](https://hutch.sh) (manages Bun, Electrobun, and dependencies).
+Requires [Hutch](https://github.com/blackboardsh/hutch) (manages Bun, Electrobun, and dependencies).
 
 ```bash
 hutch install

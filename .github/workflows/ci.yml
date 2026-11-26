@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+# CI only reads the repository; it never needs to write.
+permissions:
+  contents: read
+
 jobs:
   desktop:
     name: Desktop App
@@ -14,19 +18,41 @@ jobs:
       run:
         working-directory: apps/desktop
     steps:
-      - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
+      # Same pinned Hutch as release.yml (installer commit + SHA256, archive SHA256, exact version).
+      - name: Install Hutch (pinned and verified)
+        env:
+          HUTCH_VERSION: "0.30.0"
+          HUTCH_INSTALLER_COMMIT: e9242de5dcbfe7af1142d51010bf3650c21833c0
+          HUTCH_INSTALLER_SHA256: ac0ad498dfb09d2bc80fc9a6a0254c183cd0f125c83dce32defff65a1cf793e7
+          HUTCH_ARCHIVE_SHA256: e128c3b87a1a61f5071af568e6b836f9316640fcb2df46d77a9064a2460cf8a2 # linux-x64
+        run: |
+          set -eu
+          installer="$RUNNER_TEMP/hutch-install.sh"
+          curl -fsSL -o "$installer" \
+            "https://raw.githubusercontent.com/blackboardsh/hutch/$HUTCH_INSTALLER_COMMIT/scripts/install.sh"
+          echo "$HUTCH_INSTALLER_SHA256  $installer" | sha256sum -c -
+          archive_hash=$(curl -fsSL "https://hutch.blackboard.sh/hutch/releases/$HUTCH_VERSION/manifest.json" \
+            | jq -r '.platforms["linux-x64"].archive.sha256')
+          [ "$archive_hash" = "$HUTCH_ARCHIVE_SHA256" ] || { echo "Hutch archive hash changed: $archive_hash"; exit 1; }
+          sh "$installer" --version "$HUTCH_VERSION" --no-modify-path
+          echo "$HOME/.hutch/bin" >> "$GITHUB_PATH"
+      # prepare writes .hutch/devkit (the Electrobun types tsconfig.json extends).
       - name: Install dependencies
-        run: bun install
+        run: |
+          hutch install
+          hutch electrobun prepare
       - name: Type check
-        run: bun x tsc --noEmit -p .
+        run: hutch pm exec -- tsc --noEmit -p .
       - name: Unit & architectural fitness tests
-        run: bun test src/core
+        run: hutch test src/core
       - name: Production frontend build
-        run: bun x vite build
+        run: hutch pm exec -- vite build
       - name: End-to-end browser tests
         run: node scripts/test-e2e.mjs
 
@@ -37,11 +63,14 @@ jobs:
       run:
         working-directory: apps/web
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 22
+      # npm ci installs exactly what package-lock.json pins.
       - name: Install dependencies
-        run: npm install
+        run: npm ci
       - name: Astro production build
         run: npm run build
