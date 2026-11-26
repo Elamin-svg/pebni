@@ -4,6 +4,15 @@ All notable changes to the Pebni open-source desktop app will be documented in t
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-11-26
+
+### Changed
+- First release built and published by the GitHub release workflow: Hutch is installed from a pinned, checksum-verified source, and the build job no longer holds a write token (only the separate publish job does).
+- Installed v0.1.0 apps receive this version through the built-in auto-updater (delta patch).
+
+### Fixed
+- End-to-end tests wait up to 30 s for headless Chrome, so slow CI runners no longer fail a build or a release.
+
 ## [0.1.0] - 2026-11-25 (Beta)
 
 ### Added

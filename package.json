@@ -1,7 +1,7 @@
 {
 	"name": "pebni-monorepo",
 	"private": true,
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"license": "MIT",
 	"description": "Open-source monorepo containing the Pebni desktop app (apps/desktop) and AstroJS landing page (apps/web)",
 	"scripts": {

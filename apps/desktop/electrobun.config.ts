@@ -4,7 +4,7 @@ export default {
 	app: {
 		name: "Pebni",
 		identifier: "app.pebni.desktop",
-		version: "0.1.0",
+		version: "0.1.1",
 	},
 	release: {
 		// Override with PEBNI_RELEASE_BASE_URL when building for a custom repo or mirror.

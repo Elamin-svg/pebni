@@ -1,6 +1,6 @@
 {
 	"name": "@pebni/desktop",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"type": "module",
 	"description": "A calm, open-source 20-20-20 relaxation break companion for developers",
 	"license": "MIT",
