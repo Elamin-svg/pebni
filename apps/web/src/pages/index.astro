@@ -28,7 +28,7 @@ const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/win-x64-Pebni-S
 		<script is:inline>document.documentElement.classList.add("js");</script>
 	</head>
 	<body>
-		<!-- Hero: The sentence is the layout — inline cabin break window + full cabin panorama -->
+		<!-- Hero: short headline + one-line lead + full cabin panorama -->
 		<header class="hero">
 			<nav class="wrap site-nav" aria-label="Primary">
 				<a class="wordmark" href="#top" id="top">
@@ -49,21 +49,17 @@ const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/win-x64-Pebni-S
 				<h1 class="hero-title">
 					<span class="line">
 						<span data-line style="--i:0">
-							<span>Rest your</span>
-							<span class="hero-inline-window" aria-hidden="true">
-								<img src="/art/break-morning-window.jpg" alt="" width="320" height="180" fetchpriority="high" />
-							</span>
-							<span>eyes</span>
+							Rest your eyes
 						</span>
 					</span>
 					<span class="line">
-						<span data-line style="--i:1">before 6 p.m. hits.</span>
+						<span data-line style="--i:1">while you code.</span>
 					</span>
 				</h1>
 
 				<div class="hero-subgrid" data-load style="--d:240ms">
 					<p class="hero-lead">
-						I built Pebni because I kept skipping breaks until my eyes burned. It is a free, open-source break app for Windows that gently covers your screen. macOS coming soon.
+						For developers who keep skipping breaks. Pebni covers your screen for a short, calm break, then gets out of your way.
 					</p>
 
 					<div class="hero-cta-block">
@@ -97,7 +93,7 @@ const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/win-x64-Pebni-S
 							</a>
 						</div>
 						<p class="hero-meta">
-							Free under MIT · <a href="/downloads">Windows download</a> · macOS coming soon · <a href="#preview">Try a break preview</a>
+							Free and open source · No account · macOS coming soon · <a href="#preview">See a break</a>
 						</p>
 					</div>
 				</div>
@@ -113,7 +109,7 @@ const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/win-x64-Pebni-S
 						/>
 					</figure>
 					<div class="hero-peeking">
-						<p class="hero-bubble">Time for a quick break. Look away from the code until your break is done.</p>
+						<p class="hero-bubble">Break time. Look away from the screen.</p>
 						<img src="/art/logo.png" alt="Pebni mascot holding a warm mug of coffee" width="100" height="100" />
 					</div>
 				</div>
@@ -125,13 +121,19 @@ const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/win-x64-Pebni-S
 			<section id="why" class="intro" aria-labelledby="why-heading">
 				<div class="wrap intro-grid">
 					<div class="intro-left">
-						<h2 id="why-heading" class="intro-head" data-reveal>Built because I skipped every break</h2>
+						<h2 id="why-heading" class="intro-head" data-reveal>A break you actually take</h2>
 						<p class="intro-lead" data-reveal style="--rd:70ms">
-							Tiny corner popups never survive a debugging session. You swipe them away in half a second, then wonder why your eyes ache and your focus disappears by evening.
+							Corner popups lose to every debugging session. Pebni takes the whole screen, so the break happens.
 						</p>
-						<p class="intro-copy" data-reveal style="--rd:130ms">
-							I built Pebni as a small, local-first desktop companion that fixes the willpower problem directly. Pick any work and break length you want, or start with 20-20-20 or Pomodoro presets. Instead of nagging you in a toast notification, Pebni turns your whole screen into a quiet cabin window, lets you hide the Skip button on short resets, and lets you unwind with short stories, guided meditation, or simple breathe-in, breathe-out cues.
-						</p>
+						<!-- Differentiators: what a Pebni break has that a reminder popup doesn't -->
+						<ul class="intro-checks" data-reveal style="--rd:130ms">
+							<li>Listen to short audiobooks from LibriVox during your break</li>
+							<li>Follow a guided meditation or breathe 4 s in, 6 s out</li>
+							<li>Relax to rain and nature sounds, or just a soft chime</li>
+							<li>Hide the Skip button so short breaks run to the end</li>
+							<li>Breaks wait for your calls, fullscreen apps and typing flow</li>
+							<li>Use 20-20-20, Pomodoro, or any break length you like</li>
+						</ul>
 
 						<div class="intro-small-art" data-reveal style="--rd:180ms">
 							<div class="art-frame">
