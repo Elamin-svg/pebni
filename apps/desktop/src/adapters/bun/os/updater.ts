@@ -6,7 +6,7 @@ import type { AppUpdateState } from "../../../core/settings/app-update";
 const STARTUP_DELAY_MS = 10_000;
 const CHECK_EVERY_MS = 6 * 60 * 60_000;
 
-let state: AppUpdateState = { status: "idle", currentVersion: "0.1.0" };
+let state: AppUpdateState = { status: "idle", currentVersion: "0.1.1" };
 let listener: ((next: AppUpdateState) => void) | undefined;
 let beforeApply: (() => void) | undefined;
 let startupTimer: ReturnType<typeof setTimeout> | undefined;
