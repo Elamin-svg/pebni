@@ -30,29 +30,37 @@ jobs:
         with:
           node-version: 22
 
-      # The installer is only run when its SHA256 matches the reviewed one
-      # (repository variable HUTCH_INSTALLER_SHA256). A changed script stops the release.
-      - name: Install Hutch (verified installer)
+      # Hutch, pinned three ways (bump all together with the cli= pin in apps/desktop/hutch.config.ts):
+      # 1. the installer comes from a fixed commit of github.com/blackboardsh/hutch and must match its SHA256,
+      # 2. the release manifest must list the reviewed archive SHA256 for this platform,
+      # 3. the installer installs exactly that version and checks the archive against the manifest.
+      - name: Install Hutch (pinned and verified)
         shell: pwsh
         env:
-          EXPECTED_SHA256: ${{ vars.HUTCH_INSTALLER_SHA256 }}
+          HUTCH_VERSION: "0.30.0"
+          HUTCH_INSTALLER_COMMIT: e9242de5dcbfe7af1142d51010bf3650c21833c0
+          HUTCH_INSTALLER_SHA256: 185cc615d3d1b6e7156c104beb902cce3f4b9f35cb3d14df047586aa432883e7
+          HUTCH_ARCHIVE_SHA256: a930849616ec5ced8c6f151180d2e2e0094d24b2f9a277dc96f1ec8feed3f031 # windows-x64
         run: |
-          if (-not $env:EXPECTED_SHA256) {
-            throw "Set the repository variable HUTCH_INSTALLER_SHA256 to the SHA256 of a reviewed https://hutch.sh/install.ps1."
-          }
           $installer = Join-Path $env:RUNNER_TEMP "hutch-install.ps1"
-          Invoke-WebRequest -Uri https://hutch.sh/install.ps1 -OutFile $installer -UseBasicParsing
-          $actual = (Get-FileHash -Path $installer -Algorithm SHA256).Hash
-          if ($actual -ne $env:EXPECTED_SHA256.Trim().ToUpperInvariant()) {
-            throw "Hutch installer hash mismatch. Expected $env:EXPECTED_SHA256, got $actual. Review the new script before updating the variable."
-          }
-          Invoke-Expression (Get-Content -Raw -Path $installer)
+          Invoke-WebRequest -UseBasicParsing -OutFile $installer `
+            -Uri "https://raw.githubusercontent.com/blackboardsh/hutch/$env:HUTCH_INSTALLER_COMMIT/scripts/install.ps1"
+          $installerHash = (Get-FileHash -Path $installer -Algorithm SHA256).Hash.ToLowerInvariant()
+          if ($installerHash -ne $env:HUTCH_INSTALLER_SHA256) { throw "Hutch installer hash mismatch: $installerHash" }
+
+          $manifest = Invoke-RestMethod -Uri "https://hutch.blackboard.sh/hutch/releases/$env:HUTCH_VERSION/manifest.json"
+          $archiveHash = $manifest.platforms.'windows-x64'.archive.sha256
+          if ($archiveHash -ne $env:HUTCH_ARCHIVE_SHA256) { throw "Hutch $env:HUTCH_VERSION archive hash changed: $archiveHash" }
+
+          & ([scriptblock]::Create((Get-Content -Raw -Path $installer))) -Version $env:HUTCH_VERSION -NoModifyPath
           "$HOME\.hutch\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
       - name: Install desktop dependencies
         working-directory: apps/desktop
         shell: pwsh
-        run: hutch install
+        run: |
+          hutch install
+          hutch electrobun prepare
 
       - name: Type check & unit tests
         working-directory: apps/desktop

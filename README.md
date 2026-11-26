@@ -57,7 +57,7 @@ This repository holds two independent workspaces:
 The desktop app never imports from the website. `apps/desktop/src/core/architecture.test.ts` checks this on every test run.
 
 ```bash
-# Desktop app (needs Hutch: https://hutch.sh)
+# Desktop app (needs Hutch: https://github.com/blackboardsh/hutch)
 cd apps/desktop
 hutch install
 hutch run start                         # build and launch the app
