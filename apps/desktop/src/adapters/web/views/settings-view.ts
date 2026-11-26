@@ -17,7 +17,7 @@ export function createSettingsView(bridge: Bridge) {
 	const updateBtn = $<HTMLButtonElement>("update-btn");
 	const renderShortcuts = createShortcutsView(bridge, render);
 
-	let currentUpdate: AppUpdateState = { status: "idle", currentVersion: "0.1.1" };
+	let currentUpdate: AppUpdateState = { status: "idle", currentVersion: "0.1.2" };
 
 	// Each switch asks for the change; the answer says what really applied.
 	atLogin.onchange = () => bridge.setPrefs({ startAtLogin: atLogin.checked }).then(render);
