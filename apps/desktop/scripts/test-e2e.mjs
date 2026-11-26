@@ -46,6 +46,8 @@ function startServer() {
 	});
 }
 
+const CDP_TIMEOUT_MS = 30_000; // how long Chrome may take to open its debugging endpoint
+
 // Launch headless browser and open a CDP WebSocket to the first page target.
 async function launchCdp() {
 	const port = 19222 + Math.floor(Math.random() * 1000);
@@ -55,16 +57,23 @@ async function launchCdp() {
 		"--no-first-run", "--no-default-browser-check", "--disable-gpu", "about:blank",
 	], { stdio: "ignore" });
 
+	// Cold CI runners can take well over 10 s to start Chrome; stop early only if it exits.
+	let exited = false;
+	proc.once("exit", () => { exited = true; });
+	const deadline = Date.now() + CDP_TIMEOUT_MS;
 	let wsUrl = "";
-	for (let i = 0; i < 60; i++) {
+	while (!wsUrl && !exited && Date.now() < deadline) {
 		try {
 			const targets = await (await fetch(`http://127.0.0.1:${port}/json`)).json();
 			const page = targets.find((t) => t.type === "page");
-			if (page?.webSocketDebuggerUrl) { wsUrl = page.webSocketDebuggerUrl; break; }
+			if (page?.webSocketDebuggerUrl) wsUrl = page.webSocketDebuggerUrl;
 		} catch {}
-		await new Promise((r) => setTimeout(r, 150));
+		if (!wsUrl) await new Promise((r) => setTimeout(r, 150));
 	}
-	if (!wsUrl) throw new Error("Timed out waiting for Chrome CDP.");
+	if (!wsUrl) {
+		proc.kill();
+		throw new Error(exited ? "Chrome exited before CDP was ready." : `Timed out after ${CDP_TIMEOUT_MS / 1000} s waiting for Chrome CDP.`);
+	}
 
 	const ws = new WebSocket(wsUrl);
 	await new Promise((res, rej) => { ws.onopen = res; ws.onerror = rej; });
