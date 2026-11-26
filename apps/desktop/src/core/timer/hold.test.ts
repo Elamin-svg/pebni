@@ -4,7 +4,7 @@ import * as timer from "./timer";
 import { createEngine } from "./engine";
 import { DND_CHOICES, dndView, heldBy, noticeActivity, startDnd, stopDnd } from "./hold";
 import { holdLine } from "../atmosphere/hold-copy";
-import { cleanFocusApps, DEFAULT_FOCUS_APPS, focusAppRunning } from "../settings/focus-apps";
+import { cleanFocusApps, DEFAULT_FOCUS_APPS, focusAppBusy, focusAppRunning } from "../settings/focus-apps";
 import { cleanPrefs } from "../settings/prefs";
 import { trayLabel } from "../atmosphere/tray-label";
 
@@ -125,4 +125,20 @@ test("focus apps: cleaned, defaulted and matched without case", () => {
 	expect(focusAppRunning(["zoom.exe"], ["explorer.exe", "Zoom.exe"])).toBe(true);
 	expect(focusAppRunning(["zoom.exe"], ["explorer.exe"])).toBe(false);
 	expect(cleanPrefs({ focusApps: ["Notepad.exe"] }).focusApps).toEqual(["notepad.exe"]);
+});
+
+// Discord idles in the tray all day: an open focus app alone must not hold breaks forever.
+test("a focus app holds breaks only while it is in a call or in front", () => {
+	const apps = ["discord.exe", "ms-teams.exe"];
+	const idle = { running: ["explorer.exe", "Discord.exe"], front: ["Code.exe", "explorer.exe"], micUsers: [] };
+	expect(focusAppBusy(apps, idle)).toBe(false); // open in the tray
+	expect(focusAppBusy(apps, { ...idle, micUsers: ["Discord.exe", "explorer.exe"] })).toBe(true); // in a call
+	expect(focusAppBusy(apps, { ...idle, front: ["Discord.exe"] })).toBe(true); // in front
+	// A helper process records, and the focus app that started it counts.
+	expect(focusAppBusy(apps, { ...idle, micUsers: ["msedgewebview2.exe", "ms-teams.exe"] })).toBe(true);
+	// Another program on the microphone does not count.
+	expect(focusAppBusy(apps, { ...idle, micUsers: ["obs64.exe", "explorer.exe"] })).toBe(false);
+	// No microphone signal (not Windows): fall back to "it is running".
+	expect(focusAppBusy(apps, { ...idle, micUsers: null })).toBe(true);
+	expect(focusAppBusy(apps, { ...idle, running: ["explorer.exe"], micUsers: null })).toBe(false);
 });
