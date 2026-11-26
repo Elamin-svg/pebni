@@ -123,6 +123,13 @@ const baseUrl = `http://127.0.0.1:${port}`;
 const cdp = await launchCdp();
 let passed = 0;
 
+// Set prefers-reduced-motion for the page. The suite runs with "no-preference" so results do not
+// depend on the OS (Windows Server CI runners report "reduce"); tests that check "reduce" ask for it.
+async function setReducedMotion(value) {
+	await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value }] });
+}
+await setReducedMotion("no-preference");
+
 async function check(name, fn) {
 	await fn();
 	passed++;
@@ -702,12 +709,12 @@ try {
 		assert(res.focusHasMotion && res.appHasMotion && res.animName && res.animName !== "none", `Rombo nav animation failed: ${JSON.stringify(res)}`);
 
 		// Under prefers-reduced-motion: reduce, tab switch must NOT add motion classes
-		await cdp.send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-reduced-motion", value: "reduce" }] });
+		await setReducedMotion("reduce");
 		const reducedOk = await cdp.evalJs(`(() => {
 			document.getElementById("tab-rhythm").click();
 			return !document.getElementById("rule").classList.contains("motion-opacity-in-0");
 		})()`);
-		await cdp.send("Emulation.setEmulatedMedia", { features: [] });
+		await setReducedMotion("no-preference");
 		assert(reducedOk, "Reduced motion still applied Rombo motion classes");
 	});
 
