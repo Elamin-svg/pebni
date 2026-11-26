@@ -1,4 +1,5 @@
 ---
+import Analytics from "@vercel/analytics/astro";
 import "../styles/pebni.css";
 
 // Repository slug: update via `node scripts/release.mjs <ver> --repo owner/repo` when publishing.
@@ -196,5 +197,6 @@ const RELEASES_URL = `${GITHUB_URL}/releases/latest`;
 					.catch(() => {});
 			}
 		</script>
+		<Analytics />
 	</body>
 </html>

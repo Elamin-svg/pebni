@@ -1,4 +1,5 @@
 ---
+import Analytics from "@vercel/analytics/astro";
 import "../styles/pebni.css";
 
 // Repository slug: update via `node scripts/release.mjs <ver> --repo owner/repo` when publishing.
@@ -1059,5 +1060,6 @@ const DOWNLOAD_WIN_URL = `${GITHUB_URL}/releases/latest/download/win-x64-Pebni-S
 				revealVisible();
 			}
 		</script>
+		<Analytics />
 	</body>
 </html>
