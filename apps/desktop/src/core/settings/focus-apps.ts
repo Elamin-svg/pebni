@@ -23,3 +23,19 @@ export function focusAppRunning(focusApps: string[], running: string[]): boolean
 	const lower = new Set(running.map((n) => n.toLowerCase()));
 	return focusApps.some((app) => lower.has(app));
 }
+
+// What the platform sees about the programs right now. "Programs" include the ones that started
+// them, since apps often record or draw their window from a helper process.
+export type AppSignals = {
+	running: string[]; // every running program, for example "Discord.exe"
+	front: string[]; // the program whose window is in front ([] when unknown)
+	micUsers: string[] | null; // programs recording from a microphone; null when the platform cannot tell
+};
+
+// True when a focus app is open AND busy: in a call (recording from the microphone) or in front.
+// Apps like Discord or Teams sit in the tray all day, so merely running is not enough.
+// When the platform cannot see the microphone, running is the best guess left.
+export function focusAppBusy(focusApps: string[], s: AppSignals): boolean {
+	if (s.micUsers === null) return focusAppRunning(focusApps, s.running);
+	return focusAppRunning(focusApps, [...s.front, ...s.micUsers]);
+}
