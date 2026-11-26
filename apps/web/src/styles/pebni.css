@@ -273,25 +273,6 @@ button {
 	gap: 0.22em;
 }
 
-/* The direction's core device: Pebni's cabin break window sitting inline inside the sentence */
-.hero-inline-window {
-	display: inline-block;
-	height: 0.86em;
-	width: 1.9em;
-	border-radius: 0.34em;
-	overflow: clip;
-	vertical-align: -0.12em;
-	background: var(--surface-sage);
-	flex: none;
-}
-
-.hero-inline-window img {
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	object-position: 72% 48%;
-}
-
 .hero-subgrid {
 	margin-top: clamp(1.25rem, 2.2vw, 1.75rem);
 	display: grid;
@@ -428,12 +409,37 @@ button {
 	max-width: 34ch;
 }
 
-.intro-copy {
+/* Differentiator list with bold meadow-green check marks */
+.intro-checks {
 	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: grid;
+	gap: 0.8rem;
+	max-width: 50ch;
 	font-size: var(--step-body);
-	line-height: 1.6;
-	color: var(--muted);
-	max-width: 48ch;
+	line-height: 1.5;
+	font-weight: 600;
+	color: var(--ink);
+}
+
+.intro-checks li {
+	position: relative;
+	padding-left: 2rem;
+}
+
+/* Filled accent circle with a bold white check (check cut out via mask) */
+.intro-checks li::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0.1em;
+	width: 1.35rem;
+	height: 1.35rem;
+	border-radius: 50%;
+	background:
+		url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7 12.5l3.5 3.5L17 9'/%3E%3C/svg%3E") center / 100% no-repeat,
+		var(--accent);
 }
 
 .intro-small-art {
@@ -2472,10 +2478,6 @@ button {
 	.hero-title,
 	.downloads-copy h1 {
 		font-size: clamp(2.35rem, 10.6vw, 2.95rem);
-	}
-	.hero-inline-window {
-		width: 1.5em;
-		height: 0.82em;
 	}
 	.hero-subgrid {
 		margin-top: 1.05rem;
